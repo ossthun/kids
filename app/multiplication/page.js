@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function randomNumber() {
   return Math.floor(Math.random() * 10) + 1;
@@ -13,6 +13,12 @@ export default function MultiplicationPage() {
   const [message, setMessage] = useState("");
   const [score, setScore] = useState(0);
 
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [a, b]);
+
   const nextQuestion = () => {
     setA(randomNumber());
     setB(randomNumber());
@@ -22,10 +28,11 @@ export default function MultiplicationPage() {
   const checkAnswer = () => {
     if (Number(answer) === a * b) {
       setMessage("🎉 Correct!");
-      setScore(score + 1);
+      setScore((prev) => prev + 1);
       nextQuestion();
     } else {
       setMessage("😊 Try again!");
+      inputRef.current?.focus();
     }
   };
 
@@ -45,6 +52,7 @@ export default function MultiplicationPage() {
         </p>
 
         <input
+          ref={inputRef}
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           onKeyDown={(e) => {
@@ -68,7 +76,9 @@ export default function MultiplicationPage() {
         <p style={styles.message}>{message}</p>
       </div>
 
-      <a href="/" style={styles.backLink}>← Back home</a>
+      <a href="/" style={styles.backLink}>
+        ← Back home
+      </a>
     </main>
   );
 }
