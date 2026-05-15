@@ -1,0 +1,150 @@
+"use client";
+
+import { useState } from "react";
+
+function randomNumber() {
+  return Math.floor(Math.random() * 10) + 1;
+}
+
+export default function MultiplicationPage() {
+  const [a, setA] = useState(randomNumber());
+  const [b, setB] = useState(randomNumber());
+  const [answer, setAnswer] = useState("");
+  const [message, setMessage] = useState("");
+  const [score, setScore] = useState(0);
+
+  const nextQuestion = () => {
+    setA(randomNumber());
+    setB(randomNumber());
+    setAnswer("");
+  };
+
+  const checkAnswer = () => {
+    if (Number(answer) === a * b) {
+      setMessage("🎉 Correct!");
+      setScore(score + 1);
+      nextQuestion();
+    } else {
+      setMessage("😊 Try again!");
+    }
+  };
+
+  return (
+    <main style={styles.page}>
+      <h1 style={styles.title}>✖️ Multiplication</h1>
+
+      <p style={styles.subtitle}>
+        Practise multiplication from 1 to 10.
+      </p>
+
+      <div style={styles.card}>
+        <p style={styles.score}>Score: {score}</p>
+
+        <p style={styles.question}>
+          {a} × {b} = ?
+        </p>
+
+        <input
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") checkAnswer();
+          }}
+          type="number"
+          placeholder="Answer"
+          style={styles.input}
+        />
+
+        <br />
+
+        <button onClick={checkAnswer} style={styles.checkButton}>
+          Check
+        </button>
+
+        <button onClick={nextQuestion} style={styles.skipButton}>
+          Skip
+        </button>
+
+        <p style={styles.message}>{message}</p>
+      </div>
+
+      <a href="/" style={styles.backLink}>← Back home</a>
+    </main>
+  );
+}
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#f0f9ff",
+    padding: "30px",
+    textAlign: "center",
+    fontFamily: "Arial, sans-serif"
+  },
+  title: {
+    fontSize: "42px",
+    color: "#2563eb"
+  },
+  subtitle: {
+    fontSize: "22px"
+  },
+  card: {
+    maxWidth: "520px",
+    margin: "30px auto",
+    background: "white",
+    borderRadius: "24px",
+    padding: "30px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
+  },
+  score: {
+    fontSize: "22px",
+    fontWeight: "bold",
+    color: "#16a34a"
+  },
+  question: {
+    fontSize: "56px",
+    fontWeight: "bold",
+    margin: "20px 0"
+  },
+  input: {
+    width: "180px",
+    padding: "14px",
+    fontSize: "28px",
+    textAlign: "center",
+    borderRadius: "14px",
+    border: "2px solid #93c5fd"
+  },
+  checkButton: {
+    marginTop: "24px",
+    marginRight: "10px",
+    padding: "16px 30px",
+    background: "#22c55e",
+    color: "white",
+    border: "none",
+    borderRadius: "16px",
+    fontSize: "22px",
+    cursor: "pointer"
+  },
+  skipButton: {
+    marginTop: "24px",
+    padding: "16px 30px",
+    background: "#f59e0b",
+    color: "white",
+    border: "none",
+    borderRadius: "16px",
+    fontSize: "22px",
+    cursor: "pointer"
+  },
+  message: {
+    fontSize: "26px",
+    fontWeight: "bold",
+    marginTop: "24px"
+  },
+  backLink: {
+    display: "inline-block",
+    marginTop: "20px",
+    color: "#2563eb",
+    fontSize: "18px",
+    textDecoration: "none"
+  }
+};
