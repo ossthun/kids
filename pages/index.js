@@ -35,7 +35,8 @@ export default function Home() {
   <a href="/clock" style={buttonStyle}>🕒 {t.clock}</a>
   <a href="/clock-words" style={buttonStyle}>🕰️ {t.clockWords}</a>
   <a href="/time" style={buttonStyle}>⌛ {t.time}</a>
-</div>    </main>
+</div>    
+    </main>
   );
 }
 
