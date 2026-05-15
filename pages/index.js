@@ -22,7 +22,7 @@ export default function Home() {
 
      <div style={styles.grid}>
   <a href="/weekdays" style={buttonStyle}>
-    📅 {t.weekdays}
+    🏫 {t.weekdays}
   </a>
 
   <a href="/months" style={buttonStyle}>
@@ -34,7 +34,7 @@ export default function Home() {
   </a>
 
   <a href="/calendar" style={buttonStyle}>
-    📆 {t.calendar}
+    📋 {t.calendar}
   </a>
 
   <a href="/addition" style={buttonStyle}>
@@ -58,7 +58,7 @@ export default function Home() {
   </a>
 
   <a href="/number" style={buttonStyle}>
-    🔢 {t.number}
+    🧩 {t.number}
   </a>
 
   <a href="/money" style={buttonStyle}>
@@ -74,7 +74,7 @@ export default function Home() {
   </a>
 
   <a href="/time" style={buttonStyle}>
-    ⏱️ {t.time}
+    ⌛ {t.time}
   </a>
 </div>
     </main>
