@@ -24,6 +24,7 @@ export const translations = {
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   },
+
   de: {
     homeTitle: "Lernwebsite für Kinder",
     homeSubtitle: "Lerne Wochentage, Monate, Uhrzeiten und das Einmaleins.",
@@ -48,13 +49,119 @@ export const translations = {
     clockSubtitle: "Welche Zeit wird angezeigt?",
     days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
     monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+  },
+
+  fr: {
+    homeTitle: "Site d’apprentissage pour enfants",
+    homeSubtitle: "Apprends les jours, les mois, l’heure et les multiplications.",
+    weekdays: "Jours de la semaine",
+    months: "Mois",
+    clock: "Lire l’heure",
+    multiplication: "Multiplications",
+    backHome: "← Retour à l’accueil",
+    check: "Vérifier",
+    skip: "Passer",
+    tryAgain: "😊 Essaie encore !",
+    correct: "🎉 Correct !",
+    score: "Score",
+    answer: "Réponse",
+    weekdaysTitle: "📅 Jours de la semaine",
+    weekdaysSubtitle: "Mets les jours dans le bon ordre !",
+    monthsTitle: "🗓️ Mois",
+    monthsSubtitle: "Mets les mois dans le bon ordre !",
+    multiplicationTitle: "✖️ Multiplications",
+    multiplicationSubtitle: "Entraîne-toi avec les multiplications de 1 à 10.",
+    clockTitle: "🕒 Lire l’heure",
+    clockSubtitle: "Quelle heure est affichée ?",
+    days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+    monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+  },
+
+  it: {
+    homeTitle: "Sito di apprendimento per bambini",
+    homeSubtitle: "Impara i giorni, i mesi, l’orologio e le moltiplicazioni.",
+    weekdays: "Giorni della settimana",
+    months: "Mesi",
+    clock: "Leggere l’orologio",
+    multiplication: "Moltiplicazioni",
+    backHome: "← Torna alla home",
+    check: "Controlla",
+    skip: "Salta",
+    tryAgain: "😊 Prova ancora!",
+    correct: "🎉 Corretto!",
+    score: "Punteggio",
+    answer: "Risposta",
+    weekdaysTitle: "📅 Giorni della settimana",
+    weekdaysSubtitle: "Metti i giorni della settimana nell’ordine corretto!",
+    monthsTitle: "🗓️ Mesi",
+    monthsSubtitle: "Metti i mesi nell’ordine corretto!",
+    multiplicationTitle: "✖️ Moltiplicazioni",
+    multiplicationSubtitle: "Esercitati con le moltiplicazioni da 1 a 10.",
+    clockTitle: "🕒 Leggere l’orologio",
+    clockSubtitle: "Che ora è?",
+    days: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"],
+    monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]
+  },
+
+  es: {
+    homeTitle: "Sitio de aprendizaje para niños",
+    homeSubtitle: "Aprende los días, los meses, el reloj y las multiplicaciones.",
+    weekdays: "Días de la semana",
+    months: "Meses",
+    clock: "Leer el reloj",
+    multiplication: "Multiplicaciones",
+    backHome: "← Volver al inicio",
+    check: "Comprobar",
+    skip: "Saltar",
+    tryAgain: "😊 ¡Inténtalo otra vez!",
+    correct: "🎉 ¡Correcto!",
+    score: "Puntuación",
+    answer: "Respuesta",
+    weekdaysTitle: "📅 Días de la semana",
+    weekdaysSubtitle: "Pon los días de la semana en el orden correcto.",
+    monthsTitle: "🗓️ Meses",
+    monthsSubtitle: "Pon los meses en el orden correcto.",
+    multiplicationTitle: "✖️ Multiplicaciones",
+    multiplicationSubtitle: "Practica las multiplicaciones del 1 al 10.",
+    clockTitle: "🕒 Leer el reloj",
+    clockSubtitle: "¿Qué hora muestra?",
+    days: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+  },
+
+  pt: {
+    homeTitle: "Site de aprendizagem para crianças",
+    homeSubtitle: "Aprende os dias, os meses, as horas e as multiplicações.",
+    weekdays: "Dias da semana",
+    months: "Meses",
+    clock: "Ler o relógio",
+    multiplication: "Multiplicações",
+    backHome: "← Voltar ao início",
+    check: "Verificar",
+    skip: "Saltar",
+    tryAgain: "😊 Tenta novamente!",
+    correct: "🎉 Correto!",
+    score: "Pontuação",
+    answer: "Resposta",
+    weekdaysTitle: "📅 Dias da semana",
+    weekdaysSubtitle: "Coloca os dias da semana na ordem correta!",
+    monthsTitle: "🗓️ Meses",
+    monthsSubtitle: "Coloca os meses na ordem correta!",
+    multiplicationTitle: "✖️ Multiplicações",
+    multiplicationSubtitle: "Pratica as multiplicações de 1 a 10.",
+    clockTitle: "🕒 Ler o relógio",
+    clockSubtitle: "Que horas são?",
+    days: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
+    monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
   }
 };
 
 export function getLanguage() {
   if (typeof window === "undefined") return "en";
+
   const saved = localStorage.getItem("language");
   if (saved && translations[saved]) return saved;
+
   const browserLanguage = navigator.language.slice(0, 2).toLowerCase();
   return translations[browserLanguage] ? browserLanguage : "en";
 }
