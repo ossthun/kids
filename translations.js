@@ -159,9 +159,7 @@ export const translations = {
 export function getLanguage() {
   if (typeof window === "undefined") return "en";
 
-  const saved = localStorage.getItem("language");
-  if (saved && translations[saved]) return saved;
-
   const browserLanguage = navigator.language.slice(0, 2).toLowerCase();
+
   return translations[browserLanguage] ? browserLanguage : "en";
 }
