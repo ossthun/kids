@@ -103,38 +103,48 @@ function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
+function createQuestion(language) {
+  const hour = randomHour();
+  const minute = randomMinute();
+
+  const correctAnswer = sayTime(hour, minute, language);
+  const wrong1 = sayTime(nextHour(hour), minute, language);
+  const wrong2 = sayTime(hour, minute === 55 ? 0 : minute + 5, language);
+  const wrong3 = sayTime(hour === 1 ? 12 : hour - 1, minute, language);
+
+  return {
+    hour,
+    minute,
+    correctAnswer,
+    answers: shuffle([correctAnswer, wrong1, wrong2, wrong3])
+  };
+}
+
 export default function ClockWordsPage() {
   const [language, setLanguage] = useState("en");
-  const [hour, setHour] = useState(randomHour());
-  const [minute, setMinute] = useState(randomMinute());
-  const [answers, setAnswers] = useState([]);
+  const [question, setQuestion] = useState(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setLanguage(getLanguage());
+    const lang = getLanguage();
+    setLanguage(lang);
+    setQuestion(createQuestion(lang));
   }, []);
 
+  if (!question) return null;
+
   const t = translations[language];
-  const hourAngle = ((hour % 12) + minute / 60) * 30;
-  const minuteAngle = minute * 6;
-  const correctAnswer = sayTime(hour, minute, language);
 
-  useEffect(() => {
-    const wrong1 = sayTime(nextHour(hour), minute, language);
-    const wrong2 = sayTime(hour, minute === 55 ? 0 : minute + 5, language);
-    const wrong3 = sayTime(hour === 1 ? 12 : hour - 1, minute, language);
-
-    setAnswers(shuffle([correctAnswer, wrong1, wrong2, wrong3]));
-  }, [hour, minute, language, correctAnswer]);
+  const hourAngle = ((question.hour % 12) + question.minute / 60) * 30;
+  const minuteAngle = question.minute * 6;
 
   const nextQuestion = () => {
-    setHour(randomHour());
-    setMinute(randomMinute());
+    setQuestion(createQuestion(language));
     setMessage("");
   };
 
   const checkAnswer = (answer) => {
-    if (answer === correctAnswer) {
+    if (answer === question.correctAnswer) {
       setMessage(t.correct);
       setTimeout(nextQuestion, 700);
     } else {
@@ -185,7 +195,7 @@ export default function ClockWordsPage() {
         </div>
 
         <div style={styles.answers}>
-          {answers.map((answer) => (
+          {question.answers.map((answer) => (
             <button
               key={answer}
               onClick={() => checkAnswer(answer)}
