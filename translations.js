@@ -1,5 +1,7 @@
 export const translations = {
   en: {
+    homeTitle: "Learning Website for Kids",
+    homeSubtitle: "Learn weekdays, months, clocks and multiplication.",
     weekdays: "Weekdays",
     months: "Months",
     clock: "Read the Clock",
@@ -23,6 +25,8 @@ export const translations = {
     monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   },
   de: {
+    homeTitle: "Lernwebsite für Kinder",
+    homeSubtitle: "Lerne Wochentage, Monate, Uhrzeiten und das Einmaleins.",
     weekdays: "Wochentage",
     months: "Monate",
     clock: "Uhr lesen",
@@ -44,29 +48,6 @@ export const translations = {
     clockSubtitle: "Welche Zeit wird angezeigt?",
     days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
     monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
-  },
-  fr: {
-    weekdays: "Jours de la semaine",
-    months: "Mois",
-    clock: "Lire l’heure",
-    multiplication: "Multiplications",
-    backHome: "← Retour à l’accueil",
-    check: "Vérifier",
-    skip: "Passer",
-    tryAgain: "😊 Essaie encore !",
-    correct: "🎉 Correct !",
-    score: "Score",
-    answer: "Réponse",
-    weekdaysTitle: "📅 Jours de la semaine",
-    weekdaysSubtitle: "Mets les jours dans le bon ordre !",
-    monthsTitle: "🗓️ Mois",
-    monthsSubtitle: "Mets les mois dans le bon ordre !",
-    multiplicationTitle: "✖️ Multiplications",
-    multiplicationSubtitle: "Entraîne-toi avec les multiplications de 1 à 10.",
-    clockTitle: "🕒 Lire l’heure",
-    clockSubtitle: "Quelle heure est affichée ?",
-    days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
-    monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
   }
 };
 
