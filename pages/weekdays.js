@@ -13,7 +13,7 @@ export default function WeekdaysPage() {
   useEffect(() => {
     const lang = getLanguage();
     setLanguage(lang);
-    setDays(shuffle([...translations[lang].days]));
+    setDays(shuffle(translations[lang].days));
   }, []);
 
   const t = translations[language];
@@ -22,8 +22,7 @@ export default function WeekdaysPage() {
     if (index === 0) return;
 
     const updated = [...days];
-    [updated[index - 1], updated[index]] =
-      [updated[index], updated[index - 1]];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
 
     setDays(updated);
   };
@@ -32,24 +31,19 @@ export default function WeekdaysPage() {
     if (index === days.length - 1) return;
 
     const updated = [...days];
-    [updated[index], updated[index + 1]] =
-      [updated[index + 1], updated[index]];
+    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
 
     setDays(updated);
   };
 
   const checkAnswer = () => {
-    const correct =
-      JSON.stringify(days) === JSON.stringify(t.days);
-
+    const correct = JSON.stringify(days) === JSON.stringify(t.days);
     setMessage(correct ? t.correct : t.tryAgain);
   };
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>
-        {t.weekdaysTitle}
-      </h1>
+      <h1 style={styles.title}>{t.weekdaysTitle}</h1>
 
       <p style={styles.subtitle}>
         {t.weekdaysSubtitle}
@@ -57,8 +51,8 @@ export default function WeekdaysPage() {
 
       <div style={styles.card}>
         {days.map((day, index) => (
-          <div key={day} style={styles.row}>
-            <span style={styles.item}>{day}</span>
+          <div key={day} style={styles.dayRow}>
+            <span style={styles.day}>{day}</span>
 
             <div>
               <button
@@ -79,16 +73,11 @@ export default function WeekdaysPage() {
         ))}
       </div>
 
-      <button
-        onClick={checkAnswer}
-        style={styles.checkButton}
-      >
+      <button onClick={checkAnswer} style={styles.checkButton}>
         {t.check}
       </button>
 
-      <p style={styles.message}>
-        {message}
-      </p>
+      <p style={styles.message}>{message}</p>
 
       <a href="/" style={styles.backLink}>
         {t.backHome}
@@ -103,43 +92,43 @@ const styles = {
     background: "#f0f9ff",
     padding: "30px",
     textAlign: "center",
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "Arial, sans-serif"
   },
   title: {
     fontSize: "42px",
-    color: "#2563eb",
+    color: "#2563eb"
   },
   subtitle: {
-    fontSize: "22px",
+    fontSize: "22px"
   },
   card: {
-    maxWidth: "520px",
+    maxWidth: "500px",
     margin: "30px auto",
     background: "white",
     borderRadius: "24px",
     padding: "20px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
-  row: {
+  dayRow: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "14px",
-    marginBottom: "10px",
+    padding: "16px",
+    marginBottom: "12px",
     background: "#dbeafe",
-    borderRadius: "16px",
+    borderRadius: "16px"
   },
-  item: {
-    fontSize: "22px",
-    fontWeight: "bold",
+  day: {
+    fontSize: "24px",
+    fontWeight: "bold"
   },
   smallButton: {
     margin: "0 4px",
-    padding: "9px 13px",
+    padding: "10px 14px",
     fontSize: "18px",
     border: "none",
     borderRadius: "10px",
-    cursor: "pointer",
+    cursor: "pointer"
   },
   checkButton: {
     marginTop: "20px",
@@ -149,18 +138,18 @@ const styles = {
     border: "none",
     borderRadius: "16px",
     fontSize: "22px",
-    cursor: "pointer",
+    cursor: "pointer"
   },
   message: {
     fontSize: "24px",
     fontWeight: "bold",
-    marginTop: "20px",
+    marginTop: "20px"
   },
   backLink: {
     display: "inline-block",
     marginTop: "20px",
     color: "#2563eb",
     fontSize: "18px",
-    textDecoration: "none",
-  },
+    textDecoration: "none"
+  }
 };
