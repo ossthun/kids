@@ -20,64 +20,22 @@ export default function Home() {
         {t.homeSubtitle}
       </p>
 
-     <div style={styles.grid}>
-  <a href="/weekdays" style={buttonStyle}>
-    🏫 {t.weekdays}
-  </a>
-
-  <a href="/months" style={buttonStyle}>
-    🗓️ {t.months}
-  </a>
-
-  <a href="/dates" style={buttonStyle}>
-    📆 {t.dates}
-  </a>
-
-  <a href="/calendar" style={buttonStyle}>
-    📋 {t.calendar}
-  </a>
-
-  <a href="/addition" style={buttonStyle}>
-    ➕ {t.addition}
-  </a>
-
-  <a href="/subtraction" style={buttonStyle}>
-    ➖ {t.subtraction}
-  </a>
-
-  <a href="/multiplication" style={buttonStyle}>
-    ✖️ {t.multiplication}
-  </a>
-
-  <a href="/division" style={buttonStyle}>
-    ➗ {t.division}
-  </a>
-
-  <a href="/sequence" style={buttonStyle}>
-    🔢 {t.sequence}
-  </a>
-
-  <a href="/number" style={buttonStyle}>
-    🧩 {t.number}
-  </a>
-
-  <a href="/money" style={buttonStyle}>
-    💰 {t.money}
-  </a>
-
-  <a href="/clock" style={buttonStyle}>
-    🕒 {t.clock}
-  </a>
-
-  <a href="/clock-words" style={buttonStyle}>
-    🕰️ {t.clockWords}
-  </a>
-
-  <a href="/time" style={buttonStyle}>
-    ⌛ {t.time}
-  </a>
-</div>
-    </main>
+    <div style={styles.grid}>
+  <a href="/weekdays" style={buttonStyle}>🏫 {t.weekdays}</a>
+  <a href="/months" style={buttonStyle}>🗓️ {t.months}</a>
+  <a href="/dates" style={buttonStyle}>📆 {t.dates}</a>
+  <a href="/calendar" style={buttonStyle}>📋 {t.calendar}</a>
+  <a href="/addition" style={buttonStyle}>➕ {t.addition}</a>
+  <a href="/subtraction" style={buttonStyle}>➖ {t.subtraction}</a>
+  <a href="/multiplication" style={buttonStyle}>✖️ {t.multiplication}</a>
+  <a href="/division" style={buttonStyle}>➗ {t.division}</a>
+  <a href="/sequence" style={buttonStyle}>🔢 {t.sequence}</a>
+  <a href="/number" style={buttonStyle}>🧩 {t.number}</a>
+  <a href="/money" style={buttonStyle}>💰 {t.money}</a>
+  <a href="/clock" style={buttonStyle}>🕒 {t.clock}</a>
+  <a href="/clock-words" style={buttonStyle}>🕰️ {t.clockWords}</a>
+  <a href="/time" style={buttonStyle}>⌛ {t.time}</a>
+</div>    </main>
   );
 }
 
