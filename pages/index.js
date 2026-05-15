@@ -18,8 +18,29 @@ export default function Home() {
   return (
     <main style={styles.page}>
       <div style={styles.languageBar}>
-        <button onClick={() => changeLanguage("en")} style={styles.langButton}>EN</button>
-        <button onClick={() => changeLanguage("de")} style={styles.langButton}>DE</button>
+        <button onClick={() => changeLanguage("en")} style={styles.langButton}>
+          EN
+        </button>
+
+        <button onClick={() => changeLanguage("de")} style={styles.langButton}>
+          DE
+        </button>
+
+        <button onClick={() => changeLanguage("fr")} style={styles.langButton}>
+          FR
+        </button>
+
+        <button onClick={() => changeLanguage("it")} style={styles.langButton}>
+          IT
+        </button>
+
+        <button onClick={() => changeLanguage("es")} style={styles.langButton}>
+          ES
+        </button>
+
+        <button onClick={() => changeLanguage("pt")} style={styles.langButton}>
+          PT
+        </button>
       </div>
 
       <h1 style={styles.title}>
@@ -59,12 +80,15 @@ const styles = {
     fontFamily: "Arial, sans-serif",
     background: "#f0f9ff",
   },
+
   languageBar: {
     display: "flex",
     justifyContent: "center",
     gap: "10px",
+    flexWrap: "wrap",
     marginBottom: "30px",
   },
+
   langButton: {
     padding: "10px 16px",
     borderRadius: "10px",
@@ -73,14 +97,18 @@ const styles = {
     color: "white",
     fontWeight: "bold",
     cursor: "pointer",
+    fontSize: "16px",
   },
+
   title: {
     fontSize: "44px",
     color: "#2563eb",
   },
+
   subtitle: {
     fontSize: "22px",
   },
+
   grid: {
     display: "grid",
     gap: "20px",
