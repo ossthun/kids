@@ -1,129 +1,165 @@
-import { useEffect, useState } from "react";
-import { getLanguage, translations } from "../translations";
+export const translations = {
+  en: {
+    homeTitle: "Learning Website for Kids",
+    homeSubtitle: "Learn weekdays, months, clocks and multiplication.",
+    weekdays: "Weekdays",
+    months: "Months",
+    clock: "Read the Clock",
+    multiplication: "Multiplication",
+    backHome: "← Back home",
+    check: "Check",
+    skip: "Skip",
+    tryAgain: "😊 Try again!",
+    correct: "🎉 Correct!",
+    score: "Score",
+    answer: "Answer",
+    weekdaysTitle: "📅 Weekdays",
+    weekdaysSubtitle: "Put the weekdays in the correct order!",
+    monthsTitle: "🗓️ Months",
+    monthsSubtitle: "Put the months in the correct order!",
+    multiplicationTitle: "✖️ Multiplication",
+    multiplicationSubtitle: "Practise multiplication from 1 to 10.",
+    clockTitle: "🕒 Read the Clock",
+    clockSubtitle: "What time is shown?",
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  },
 
-export default function Home() {
-  const [language, setLanguage] = useState("en");
+  de: {
+    homeTitle: "Lernwebsite für Kinder",
+    homeSubtitle: "Lerne Wochentage, Monate, Uhrzeiten und das Einmaleins.",
+    weekdays: "Wochentage",
+    months: "Monate",
+    clock: "Uhr lesen",
+    multiplication: "Einmaleins",
+    backHome: "← Zurück zur Startseite",
+    check: "Prüfen",
+    skip: "Überspringen",
+    tryAgain: "😊 Versuch es nochmals!",
+    correct: "🎉 Richtig!",
+    score: "Punkte",
+    answer: "Antwort",
+    weekdaysTitle: "📅 Wochentage",
+    weekdaysSubtitle: "Bringe die Wochentage in die richtige Reihenfolge!",
+    monthsTitle: "🗓️ Monate",
+    monthsSubtitle: "Bringe die Monate in die richtige Reihenfolge!",
+    multiplicationTitle: "✖️ Einmaleins",
+    multiplicationSubtitle: "Übe das Einmaleins von 1 bis 10.",
+    clockTitle: "🕒 Uhr lesen",
+    clockSubtitle: "Welche Zeit wird angezeigt?",
+    days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
+    monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+  },
 
-  useEffect(() => {
-    setLanguage(getLanguage());
-  }, []);
+  fr: {
+    homeTitle: "Site d’apprentissage pour enfants",
+    homeSubtitle: "Apprends les jours, les mois, l’heure et les multiplications.",
+    weekdays: "Jours de la semaine",
+    months: "Mois",
+    clock: "Lire l’heure",
+    multiplication: "Multiplications",
+    backHome: "← Retour à l’accueil",
+    check: "Vérifier",
+    skip: "Passer",
+    tryAgain: "😊 Essaie encore !",
+    correct: "🎉 Correct !",
+    score: "Score",
+    answer: "Réponse",
+    weekdaysTitle: "📅 Jours de la semaine",
+    weekdaysSubtitle: "Mets les jours dans le bon ordre !",
+    monthsTitle: "🗓️ Mois",
+    monthsSubtitle: "Mets les mois dans le bon ordre !",
+    multiplicationTitle: "✖️ Multiplications",
+    multiplicationSubtitle: "Entraîne-toi avec les multiplications de 1 à 10.",
+    clockTitle: "🕒 Lire l’heure",
+    clockSubtitle: "Quelle heure est affichée ?",
+    days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+    monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+  },
 
-  const changeLanguage = (lang) => {
-    localStorage.setItem("language", lang);
-    setLanguage(lang);
-  };
+  it: {
+    homeTitle: "Sito di apprendimento per bambini",
+    homeSubtitle: "Impara i giorni, i mesi, l’orologio e le moltiplicazioni.",
+    weekdays: "Giorni della settimana",
+    months: "Mesi",
+    clock: "Leggere l’orologio",
+    multiplication: "Moltiplicazioni",
+    backHome: "← Torna alla home",
+    check: "Controlla",
+    skip: "Salta",
+    tryAgain: "😊 Prova ancora!",
+    correct: "🎉 Corretto!",
+    score: "Punteggio",
+    answer: "Risposta",
+    weekdaysTitle: "📅 Giorni della settimana",
+    weekdaysSubtitle: "Metti i giorni della settimana nell’ordine corretto!",
+    monthsTitle: "🗓️ Mesi",
+    monthsSubtitle: "Metti i mesi nell’ordine corretto!",
+    multiplicationTitle: "✖️ Moltiplicazioni",
+    multiplicationSubtitle: "Esercitati con le moltiplicazioni da 1 a 10.",
+    clockTitle: "🕒 Leggere l’orologio",
+    clockSubtitle: "Che ora è?",
+    days: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"],
+    monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]
+  },
 
-  const t = translations[language];
+  es: {
+    homeTitle: "Sitio de aprendizaje para niños",
+    homeSubtitle: "Aprende los días, los meses, el reloj y las multiplicaciones.",
+    weekdays: "Días de la semana",
+    months: "Meses",
+    clock: "Leer el reloj",
+    multiplication: "Multiplicaciones",
+    backHome: "← Volver al inicio",
+    check: "Comprobar",
+    skip: "Saltar",
+    tryAgain: "😊 ¡Inténtalo otra vez!",
+    correct: "🎉 ¡Correcto!",
+    score: "Puntuación",
+    answer: "Respuesta",
+    weekdaysTitle: "📅 Días de la semana",
+    weekdaysSubtitle: "Pon los días de la semana en el orden correcto.",
+    monthsTitle: "🗓️ Meses",
+    monthsSubtitle: "Pon los meses en el orden correcto.",
+    multiplicationTitle: "✖️ Multiplicaciones",
+    multiplicationSubtitle: "Practica las multiplicaciones del 1 al 10.",
+    clockTitle: "🕒 Leer el reloj",
+    clockSubtitle: "¿Qué hora muestra?",
+    days: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+  },
 
-  return (
-    <main style={styles.page}>
-      <div style={styles.languageBar}>
-        <button onClick={() => changeLanguage("en")} style={styles.langButton}>
-          EN
-        </button>
+  pt: {
+    homeTitle: "Site de aprendizagem para crianças",
+    homeSubtitle: "Aprende os dias, os meses, as horas e as multiplicações.",
+    weekdays: "Dias da semana",
+    months: "Meses",
+    clock: "Ler o relógio",
+    multiplication: "Multiplicações",
+    backHome: "← Voltar ao início",
+    check: "Verificar",
+    skip: "Saltar",
+    tryAgain: "😊 Tenta novamente!",
+    correct: "🎉 Correto!",
+    score: "Pontuação",
+    answer: "Resposta",
+    weekdaysTitle: "📅 Dias da semana",
+    weekdaysSubtitle: "Coloca os dias da semana na ordem correta!",
+    monthsTitle: "🗓️ Meses",
+    monthsSubtitle: "Coloca os meses na ordem correta!",
+    multiplicationTitle: "✖️ Multiplicações",
+    multiplicationSubtitle: "Pratica as multiplicações de 1 a 10.",
+    clockTitle: "🕒 Ler o relógio",
+    clockSubtitle: "Que horas são?",
+    days: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
+    monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+  }
+};
 
-        <button onClick={() => changeLanguage("de")} style={styles.langButton}>
-          DE
-        </button>
+export function getLanguage() {
+  if (typeof window === "undefined") return "en";
 
-        <button onClick={() => changeLanguage("fr")} style={styles.langButton}>
-          FR
-        </button>
+  const browserLanguage = navigator.language.slice(0, 2).toLowerCase();
 
-        <button onClick={() => changeLanguage("it")} style={styles.langButton}>
-          IT
-        </button>
-
-        <button onClick={() => changeLanguage("es")} style={styles.langButton}>
-          ES
-        </button>
-
-        <button onClick={() => changeLanguage("pt")} style={styles.langButton}>
-          PT
-        </button>
-      </div>
-
-      <h1 style={styles.title}>
-        {t.homeTitle}
-      </h1>
-
-      <p style={styles.subtitle}>
-        {t.homeSubtitle}
-      </p>
-
-      <div style={styles.grid}>
-        <a href="/weekdays" style={buttonStyle}>
-          📅 {t.weekdays}
-        </a>
-
-        <a href="/months" style={buttonStyle}>
-          🗓️ {t.months}
-        </a>
-
-        <a href="/clock" style={buttonStyle}>
-          🕒 {t.clock}
-        </a>
-
-        <a href="/multiplication" style={buttonStyle}>
-          ✖️ {t.multiplication}
-        </a>
-      </div>
-    </main>
-  );
+  return translations[browserLanguage] ? browserLanguage : "en";
 }
-
-const styles = {
-  page: {
-    minHeight: "100vh",
-    padding: "40px",
-    textAlign: "center",
-    fontFamily: "Arial, sans-serif",
-    background: "#f0f9ff",
-  },
-
-  languageBar: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    flexWrap: "wrap",
-    marginBottom: "30px",
-  },
-
-  langButton: {
-    padding: "10px 16px",
-    borderRadius: "10px",
-    border: "none",
-    background: "#2563eb",
-    color: "white",
-    fontWeight: "bold",
-    cursor: "pointer",
-    fontSize: "16px",
-  },
-
-  title: {
-    fontSize: "44px",
-    color: "#2563eb",
-  },
-
-  subtitle: {
-    fontSize: "22px",
-  },
-
-  grid: {
-    display: "grid",
-    gap: "20px",
-    maxWidth: "500px",
-    margin: "40px auto",
-  },
-};
-
-const buttonStyle = {
-  display: "block",
-  padding: "22px",
-  background: "#60a5fa",
-  color: "white",
-  borderRadius: "20px",
-  textDecoration: "none",
-  fontSize: "24px",
-  fontWeight: "bold",
-};
