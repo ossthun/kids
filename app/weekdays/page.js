@@ -35,7 +35,7 @@ export default function WeekdaysPage() {
 
     const updated = [...days];
     [updated[index], updated[index + 1]] =
-      [updated[index + 1], updated[index];
+      [updated[index + 1], updated[index]];
 
     setDays(updated);
   };
