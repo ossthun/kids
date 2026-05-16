@@ -58,7 +58,7 @@ export const translations = {
     moneySubtitle: "Add the Swiss coins.",
     moneyHint: "Example: CHF 2.50 → type 2.50",
     rewardTitle: "Well done!",
-    rewardSubtitle: "Tap anywhere to continue",
+    rewardSubtitle: "Tap anywhere to continue.",
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   },
@@ -122,7 +122,7 @@ export const translations = {
     moneySubtitle: "Addiere die Schweizer Münzen.",
     moneyHint: "Beispiel: CHF 2.50 → tippe 2.50",
     rewardTitle: "Gut gemacht!",
-    rewardSubtitle: "Tippe irgendwo, um weiterzumachen",
+    rewardSubtitle: "Tippe irgendwo, um weiterzumachen.",
     days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
     monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
   },
@@ -186,7 +186,7 @@ export const translations = {
     moneySubtitle: "Additionne les pièces suisses.",
     moneyHint: "Exemple : CHF 2.50 → écris 2.50",
     rewardTitle: "Bravo !",
-    rewardSubtitle: "Appuie n’importe où pour continuer",
+    rewardSubtitle: "Appuie n’importe où pour continuer.",
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
   },
@@ -250,7 +250,7 @@ export const translations = {
     moneySubtitle: "Somma le monete svizzere.",
     moneyHint: "Esempio: CHF 2.50 → scrivi 2.50",
     rewardTitle: "Ben fatto!",
-    rewardSubtitle: "Tocca ovunque per continuare",
+    rewardSubtitle: "Tocca ovunque per continuare.",
     days: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"],
     monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]
   },
@@ -314,7 +314,7 @@ export const translations = {
     moneySubtitle: "Suma las monedas suizas.",
     moneyHint: "Ejemplo: CHF 2.50 → escribe 2.50",
     rewardTitle: "¡Muy bien!",
-    rewardSubtitle: "Toca cualquier lugar para continuar",
+    rewardSubtitle: "Toca cualquier lugar para continuar.",
     days: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
     monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   },
@@ -378,7 +378,7 @@ export const translations = {
     moneySubtitle: "Soma as moedas suíças.",
     moneyHint: "Exemplo: CHF 2.50 → escreve 2.50",
     rewardTitle: "Muito bem!",
-    rewardSubtitle: "Toca em qualquer lugar para continuar",
+    rewardSubtitle: "Toca em qualquer lugar para continuar.",
     days: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
     monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
   }
