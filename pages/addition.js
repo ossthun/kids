@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomNumber() {
@@ -6,6 +7,8 @@ function randomNumber() {
 }
 
 export default function AdditionPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [a, setA] = useState(randomNumber());
   const [b, setB] = useState(randomNumber());
@@ -23,7 +26,7 @@ export default function AdditionPage() {
     inputRef.current?.focus();
   }, [a, b]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setA(randomNumber());
@@ -35,7 +38,10 @@ export default function AdditionPage() {
     if (Number(answer) === a + b) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
       inputRef.current?.focus();
@@ -44,11 +50,9 @@ export default function AdditionPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>➕ Addition</h1>
+      <h1 style={styles.title}>{t.additionTitle}</h1>
 
-      <p style={styles.subtitle}>
-  {t.additionSubtitle}
-</p>
+      <p style={styles.subtitle}>{t.additionSubtitle}</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
