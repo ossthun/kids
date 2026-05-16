@@ -62,8 +62,8 @@ export default function SequencePage() {
       <h1 style={styles.title}>🔢 Sequence</h1>
 
       <p style={styles.subtitle}>
-        Find the next number.
-      </p>
+  {t.sequenceSubtitle}
+</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
