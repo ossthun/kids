@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomHour() {
@@ -14,41 +15,63 @@ function formatTime(hour, minute) {
   return `${hour}:${minute.toString().padStart(2, "0")}`;
 }
 
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function createQuestion() {
+  const hour = randomHour();
+  const minute = randomMinute();
+
+  const correctAnswer = formatTime(hour, minute);
+
+  const wrong1 = formatTime(hour === 12 ? 1 : hour + 1, minute);
+  const wrong2 = formatTime(hour, minute === 45 ? 0 : minute + 15);
+  const wrong3 = formatTime(hour === 1 ? 12 : hour - 1, minute);
+
+  return {
+    hour,
+    minute,
+    correctAnswer,
+    answers: shuffle([
+      correctAnswer,
+      wrong1,
+      wrong2,
+      wrong3
+    ])
+  };
+}
+
 export default function ClockPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
-  const [hour, setHour] = useState(randomHour());
-  const [minute, setMinute] = useState(randomMinute());
+  const [question, setQuestion] = useState(createQuestion());
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     setLanguage(getLanguage());
   }, []);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
-  const hourAngle = ((hour % 12) + minute / 60) * 30;
-  const minuteAngle = minute * 6;
+  const hourAngle =
+    ((question.hour % 12) + question.minute / 60) * 30;
 
-  const correctAnswer = formatTime(hour, minute);
-
-  const wrongAnswers = [
-    formatTime(hour === 12 ? 1 : hour + 1, minute),
-    formatTime(hour, minute === 45 ? 0 : minute + 15),
-    formatTime(hour === 1 ? 12 : hour - 1, minute)
-  ];
-
-  const answers = [correctAnswer, ...wrongAnswers].sort();
+  const minuteAngle = question.minute * 6;
 
   const nextQuestion = () => {
-    setHour(randomHour());
-    setMinute(randomMinute());
+    setQuestion(createQuestion());
     setMessage("");
   };
 
   const checkAnswer = (answer) => {
-    if (answer === correctAnswer) {
+    if (answer === question.correctAnswer) {
       setMessage(t.correct);
-      setTimeout(nextQuestion, 700);
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
     }
@@ -56,9 +79,13 @@ export default function ClockPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>{t.clockTitle}</h1>
+      <h1 style={styles.title}>
+        {t.clockTitle}
+      </h1>
 
-      <p style={styles.subtitle}>{t.clockSubtitle}</p>
+      <p style={styles.subtitle}>
+        {t.clockSubtitle}
+      </p>
 
       <div style={styles.card}>
         <div style={styles.clock}>
@@ -97,7 +124,7 @@ export default function ClockPage() {
         </div>
 
         <div style={styles.answers}>
-          {answers.map((answer) => (
+          {question.answers.map((answer) => (
             <button
               key={answer}
               onClick={() => checkAnswer(answer)}
@@ -108,7 +135,9 @@ export default function ClockPage() {
           ))}
         </div>
 
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
 
         <button onClick={nextQuestion} style={styles.skipButton}>
           {t.skip}
@@ -130,13 +159,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
     maxWidth: "560px",
     margin: "30px auto",
@@ -145,6 +177,7 @@ const styles = {
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   clock: {
     width: "240px",
     height: "240px",
@@ -154,6 +187,7 @@ const styles = {
     position: "relative",
     background: "#eff6ff"
   },
+
   number: {
     position: "absolute",
     left: "105px",
@@ -161,6 +195,7 @@ const styles = {
     fontSize: "20px",
     fontWeight: "bold"
   },
+
   hourHand: {
     position: "absolute",
     width: "8px",
@@ -171,6 +206,7 @@ const styles = {
     transformOrigin: "bottom center",
     borderRadius: "8px"
   },
+
   minuteHand: {
     position: "absolute",
     width: "5px",
@@ -181,6 +217,7 @@ const styles = {
     transformOrigin: "bottom center",
     borderRadius: "8px"
   },
+
   centerDot: {
     position: "absolute",
     width: "18px",
@@ -190,6 +227,7 @@ const styles = {
     left: "111px",
     top: "111px"
   },
+
   answers: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -197,6 +235,7 @@ const styles = {
     maxWidth: "360px",
     margin: "0 auto"
   },
+
   answerButton: {
     padding: "18px",
     background: "#60a5fa",
@@ -207,11 +246,13 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   skipButton: {
     marginTop: "10px",
     padding: "14px 28px",
@@ -222,6 +263,7 @@ const styles = {
     fontSize: "20px",
     cursor: "pointer"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
