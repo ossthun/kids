@@ -70,6 +70,7 @@ export default function ClockPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/clock");
         router.push("/reward");
       }, 700);
     } else {
