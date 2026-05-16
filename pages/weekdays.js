@@ -9,6 +9,7 @@ export default function WeekdaysPage() {
   const [language, setLanguage] = useState("en");
   const [days, setDays] = useState([]);
   const [message, setMessage] = useState("");
+  const [draggedIndex, setDraggedIndex] = useState(null);
 
   useEffect(() => {
     const lang = getLanguage();
@@ -18,22 +19,26 @@ export default function WeekdaysPage() {
 
   const t = translations[language];
 
-  const moveUp = (index) => {
-    if (index === 0) return;
-
-    const updated = [...days];
-    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
-
-    setDays(updated);
+  const handleDragStart = (index) => {
+    setDraggedIndex(index);
   };
 
-  const moveDown = (index) => {
-    if (index === days.length - 1) return;
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (dropIndex) => {
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
 
     const updated = [...days];
-    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    const draggedItem = updated[draggedIndex];
+
+    updated.splice(draggedIndex, 1);
+    updated.splice(dropIndex, 0, draggedItem);
 
     setDays(updated);
+    setDraggedIndex(null);
+    setMessage("");
   };
 
   const checkAnswer = () => {
@@ -51,24 +56,20 @@ export default function WeekdaysPage() {
 
       <div style={styles.card}>
         {days.map((day, index) => (
-          <div key={day} style={styles.dayRow}>
+          <div
+            key={day}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(index)}
+            style={{
+              ...styles.dayRow,
+              opacity: draggedIndex === index ? 0.5 : 1,
+              transform: draggedIndex === index ? "scale(1.03)" : "scale(1)",
+            }}
+          >
+            <span style={styles.dragHandle}>☰</span>
             <span style={styles.day}>{day}</span>
-
-            <div>
-              <button
-                onClick={() => moveUp(index)}
-                style={styles.smallButton}
-              >
-                ↑
-              </button>
-
-              <button
-                onClick={() => moveDown(index)}
-                style={styles.smallButton}
-              >
-                ↓
-              </button>
-            </div>
           </div>
         ))}
       </div>
@@ -111,24 +112,25 @@ const styles = {
   },
   dayRow: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    padding: "16px",
+    gap: "16px",
+    padding: "18px",
     marginBottom: "12px",
     background: "#dbeafe",
-    borderRadius: "16px"
+    borderRadius: "18px",
+    cursor: "grab",
+    userSelect: "none",
+    transition: "all 0.15s ease",
+    boxShadow: "0 4px 10px rgba(37,99,235,0.12)"
+  },
+  dragHandle: {
+    fontSize: "24px",
+    color: "#2563eb",
+    fontWeight: "bold"
   },
   day: {
     fontSize: "24px",
     fontWeight: "bold"
-  },
-  smallButton: {
-    margin: "0 4px",
-    padding: "10px 14px",
-    fontSize: "18px",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer"
   },
   checkButton: {
     marginTop: "20px",
