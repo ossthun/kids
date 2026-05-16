@@ -54,9 +54,9 @@ export default function SubtractionPage() {
     <main style={styles.page}>
       <h1 style={styles.title}>➖ Subtraction</h1>
 
-      <p style={styles.subtitle}>
-        Subtract the smaller number from the bigger number.
-      </p>
+     <p style={styles.subtitle}>
+  {t.subtractionSubtitle}
+</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
