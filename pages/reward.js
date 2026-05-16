@@ -1,10 +1,24 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function RewardPage() {
   const router = useRouter();
+  const [returnPage, setReturnPage] = useState("/");
+
+  useEffect(() => {
+    const savedPage = sessionStorage.getItem("lastGame");
+
+    if (savedPage) {
+      setReturnPage(savedPage);
+    }
+  }, []);
+
+  const handleTap = () => {
+    router.push(returnPage);
+  };
 
   return (
-    <main onClick={() => router.push("/")} style={styles.page}>
+    <main onClick={handleTap} style={styles.page}>
       <div style={styles.confetti}>
         {Array.from({ length: 60 }).map((_, index) => (
           <span
@@ -13,7 +27,7 @@ export default function RewardPage() {
               ...styles.confettiPiece,
               left: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              background: colors[index % colors.length],
+              background: colors[index % colors.length]
             }}
           />
         ))}
@@ -21,8 +35,14 @@ export default function RewardPage() {
 
       <div style={styles.content}>
         <div style={styles.smiley}>😊</div>
-        <h1 style={styles.title}>Well done!</h1>
-        <p style={styles.subtitle}>Tap anywhere to go home</p>
+
+        <h1 style={styles.title}>
+          Well done!
+        </h1>
+
+        <p style={styles.subtitle}>
+          Tap anywhere to continue
+        </p>
       </div>
     </main>
   );
@@ -35,7 +55,7 @@ const colors = [
   "#22c55e",
   "#3b82f6",
   "#8b5cf6",
-  "#ec4899",
+  "#ec4899"
 ];
 
 const styles = {
@@ -49,41 +69,47 @@ const styles = {
     fontFamily: "Arial, sans-serif",
     textAlign: "center",
     cursor: "pointer",
-    position: "relative",
+    position: "relative"
   },
+
   confetti: {
     position: "absolute",
     inset: 0,
     overflow: "hidden",
-    pointerEvents: "none",
+    pointerEvents: "none"
   },
+
   confettiPiece: {
     position: "absolute",
     top: "-20px",
     width: "12px",
     height: "18px",
     borderRadius: "4px",
-    animation: "fall 3s linear infinite",
+    animation: "fall 3s linear infinite"
   },
+
   content: {
     position: "relative",
     zIndex: 2,
     background: "white",
     padding: "50px",
     borderRadius: "32px",
-    boxShadow: "0 20px 50px rgba(0,0,0,0.12)",
+    boxShadow: "0 20px 50px rgba(0,0,0,0.12)"
   },
+
   smiley: {
     fontSize: "110px",
-    animation: "pulse 1s ease-in-out infinite",
+    animation: "pulse 1s ease-in-out infinite"
   },
+
   title: {
     fontSize: "54px",
     color: "#2563eb",
-    margin: "20px 0 10px",
+    margin: "20px 0 10px"
   },
+
   subtitle: {
     fontSize: "22px",
-    color: "#475569",
-  },
+    color: "#475569"
+  }
 };
