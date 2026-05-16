@@ -157,6 +157,7 @@ export default function ClockWordsPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/clock-words");
         router.push("/reward");
       }, 700);
     } else {
