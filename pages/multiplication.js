@@ -41,6 +41,7 @@ export default function MultiplicationPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/multiplication");
         router.push("/reward");
       }, 700);
     } else {
