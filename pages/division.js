@@ -56,8 +56,8 @@ export default function DivisionPage() {
       <h1 style={styles.title}>➗ Division</h1>
 
       <p style={styles.subtitle}>
-        Divide the numbers.
-      </p>
+  {t.divisionSubtitle}
+</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
