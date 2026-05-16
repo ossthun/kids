@@ -1,40 +1,56 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
-const coins = [5, 10, 20, 50, 100, 200, 500];
+const coins = [1, 2, 5, 10, 20, 50];
+const notes = [10, 20, 50, 100];
+const moneyOptions = [...coins, ...notes];
 
-function randomCoin() {
-  return coins[Math.floor(Math.random() * coins.length)];
+function randomMoney() {
+  return moneyOptions[
+    Math.floor(Math.random() * moneyOptions.length)
+  ];
 }
 
 function createQuestion() {
-  const coin1 = randomCoin();
-  const coin2 = randomCoin();
-  const coin3 = randomCoin();
+  const amounts = [];
+  const count = Math.floor(Math.random() * 4) + 2;
+
+  for (let i = 0; i < count; i++) {
+    amounts.push(randomMoney());
+  }
+
+  const total = amounts.reduce(
+    (sum, amount) => sum + amount,
+    0
+  );
 
   return {
-    coins: [coin1, coin2, coin3],
-    answer: coin1 + coin2 + coin3
+    amounts,
+    answer: total
   };
 }
 
-function coinLabel(cents) {
-  if (cents < 100) return `${cents} Rp`;
-  return `CHF ${cents / 100}`;
-}
-
 export default function MoneyPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(createQuestion());
   const [answer, setAnswer] = useState("");
   const [message, setMessage] = useState("");
   const [score, setScore] = useState(0);
 
+  const inputRef = useRef(null);
+
   useEffect(() => {
     setLanguage(getLanguage());
   }, []);
 
-  const t = translations[language];
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [question]);
+
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setQuestion(createQuestion());
@@ -43,24 +59,23 @@ export default function MoneyPage() {
   };
 
   const checkAnswer = () => {
-    const userCents = Math.round(Number(answer) * 100);
-
-    if (userCents === question.answer) {
+    if (Number(answer) === question.answer) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
-        nextQuestion();
+        router.push("/reward");
       }, 700);
     } else {
       setMessage(t.tryAgain);
+      inputRef.current?.focus();
     }
   };
 
   return (
     <main style={styles.page}>
       <h1 style={styles.title}>
-        💰 {t.moneyTitle}
+        {t.moneyTitle}
       </h1>
 
       <p style={styles.subtitle}>
@@ -72,43 +87,52 @@ export default function MoneyPage() {
           {t.score}: {score}
         </p>
 
-        <div style={styles.coins}>
-          {question.coins.map((coin, index) => (
-            <div key={index} style={styles.coin}>
-              {coinLabel(coin)}
+        <div style={styles.moneyRow}>
+          {question.amounts.map((amount, index) => (
+            <div
+              key={index}
+              style={
+                amount >= 10
+                  ? styles.note
+                  : styles.coin
+              }
+            >
+              CHF {amount}
             </div>
           ))}
         </div>
 
-        <p style={styles.question}>
-          = ?
-        </p>
-
         <input
+          ref={inputRef}
           value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
+          onChange={(e) =>
+            setAnswer(e.target.value)
+          }
           onKeyDown={(e) => {
-            if (e.key === "Enter") checkAnswer();
+            if (e.key === "Enter") {
+              checkAnswer();
+            }
           }}
           type="number"
-          step="0.05"
-          placeholder="CHF"
+          placeholder={t.answer}
           style={styles.input}
         />
 
-        <p style={styles.hint}>
-          {t.moneyHint}
-        </p>
+        <br />
 
-        <div style={styles.buttonRow}>
-          <button onClick={checkAnswer} style={styles.checkButton}>
-            {t.check}
-          </button>
+        <button
+          onClick={checkAnswer}
+          style={styles.checkButton}
+        >
+          {t.check}
+        </button>
 
-          <button onClick={nextQuestion} style={styles.skipButton}>
-            {t.skip}
-          </button>
-        </div>
+        <button
+          onClick={nextQuestion}
+          style={styles.skipButton}
+        >
+          {t.skip}
+        </button>
 
         <p style={styles.message}>
           {message}
@@ -141,12 +165,13 @@ const styles = {
   },
 
   card: {
-    maxWidth: "560px",
+    maxWidth: "680px",
     margin: "30px auto",
     background: "white",
     borderRadius: "24px",
     padding: "30px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
+    boxShadow:
+      "0 10px 25px rgba(0,0,0,0.08)"
   },
 
   score: {
@@ -155,31 +180,42 @@ const styles = {
     color: "#16a34a"
   },
 
-  coins: {
+  moneyRow: {
     display: "flex",
     justifyContent: "center",
-    gap: "16px",
     flexWrap: "wrap",
+    gap: "14px",
     margin: "30px 0"
   },
 
   coin: {
-    width: "100px",
-    height: "100px",
+    width: "90px",
+    height: "90px",
     borderRadius: "50%",
-    background: "#fde68a",
-    border: "5px solid #f59e0b",
+    background: "#facc15",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fontSize: "22px",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: "18px",
+    color: "#78350f",
+    boxShadow:
+      "0 4px 12px rgba(0,0,0,0.15)"
   },
 
-  question: {
-    fontSize: "48px",
+  note: {
+    width: "130px",
+    height: "70px",
+    borderRadius: "16px",
+    background: "#86efac",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     fontWeight: "bold",
-    margin: "20px 0"
+    fontSize: "20px",
+    color: "#14532d",
+    boxShadow:
+      "0 4px 12px rgba(0,0,0,0.15)"
   },
 
   input: {
@@ -191,20 +227,9 @@ const styles = {
     border: "2px solid #93c5fd"
   },
 
-  hint: {
-    fontSize: "16px",
-    color: "#64748b",
-    marginTop: "12px"
-  },
-
-  buttonRow: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "12px",
-    marginTop: "20px"
-  },
-
   checkButton: {
+    marginTop: "24px",
+    marginRight: "10px",
     padding: "16px 30px",
     background: "#22c55e",
     color: "white",
@@ -215,6 +240,7 @@ const styles = {
   },
 
   skipButton: {
+    marginTop: "24px",
     padding: "16px 30px",
     background: "#f59e0b",
     color: "white",
