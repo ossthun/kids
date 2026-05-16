@@ -96,6 +96,7 @@ export default function CalendarPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/calendar");
         router.push("/reward");
       }, 700);
     } else {
