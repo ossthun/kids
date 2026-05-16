@@ -56,6 +56,7 @@ export default function SequencePage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/sequence");
         router.push("/reward");
       }, 700);
     } else {
