@@ -64,6 +64,7 @@ export default function MoneyPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/money");
         router.push("/reward");
       }, 700);
     } else {
