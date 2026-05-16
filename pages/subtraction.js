@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomNumber() {
@@ -16,6 +17,8 @@ function createQuestion() {
 }
 
 export default function SubtractionPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(createQuestion());
   const [answer, setAnswer] = useState("");
@@ -32,7 +35,7 @@ export default function SubtractionPage() {
     inputRef.current?.focus();
   }, [question]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setQuestion(createQuestion());
@@ -43,7 +46,10 @@ export default function SubtractionPage() {
     if (Number(answer) === question.a - question.b) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
       inputRef.current?.focus();
@@ -52,11 +58,9 @@ export default function SubtractionPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>➖ Subtraction</h1>
+      <h1 style={styles.title}>{t.subtractionTitle}</h1>
 
-     <p style={styles.subtitle}>
-  {t.subtractionSubtitle}
-</p>
+      <p style={styles.subtitle}>{t.subtractionSubtitle}</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
