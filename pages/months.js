@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function shuffle(array) {
@@ -90,7 +91,14 @@ export default function MonthsPage() {
 
   const checkAnswer = () => {
     const correct = JSON.stringify(months) === JSON.stringify(t.monthNames);
-    setMessage(correct ? t.correct : t.tryAgain);
+   if (correct) {
+  setMessage(t.correct);
+  setTimeout(() => {
+    router.push("/reward");
+  }, 700);
+} else {
+  setMessage(t.tryAgain);
+}
   };
 
   return (
