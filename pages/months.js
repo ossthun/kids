@@ -9,27 +9,40 @@ export default function MonthsPage() {
   const [language, setLanguage] = useState("en");
   const [months, setMonths] = useState([]);
   const [message, setMessage] = useState("");
+  const [draggedIndex, setDraggedIndex] = useState(null);
 
   useEffect(() => {
-    const lang = getLanguage();
-    setLanguage(lang);
-    setMonths(shuffle(translations[lang].monthNames));
+    const detectedLanguage = getLanguage();
+    const safeLanguage = translations[detectedLanguage] ? detectedLanguage : "en";
+    const safeMonths =
+      translations[safeLanguage].monthNames || translations.en.monthNames;
+
+    setLanguage(safeLanguage);
+    setMonths(shuffle(safeMonths));
   }, []);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
-  const moveUp = (index) => {
-    if (index === 0) return;
-    const updated = [...months];
-    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
-    setMonths(updated);
+  const handleDragStart = (index) => {
+    setDraggedIndex(index);
   };
 
-  const moveDown = (index) => {
-    if (index === months.length - 1) return;
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (dropIndex) => {
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
     const updated = [...months];
-    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    const draggedItem = updated[draggedIndex];
+
+    updated.splice(draggedIndex, 1);
+    updated.splice(dropIndex, 0, draggedItem);
+
     setMonths(updated);
+    setDraggedIndex(null);
+    setMessage("");
   };
 
   const checkAnswer = () => {
@@ -40,24 +53,39 @@ export default function MonthsPage() {
   return (
     <main style={styles.page}>
       <h1 style={styles.title}>{t.monthsTitle}</h1>
-      <p style={styles.subtitle}>{t.monthsSubtitle}</p>
+
+      <p style={styles.subtitle}>
+        {t.monthsSubtitle}
+      </p>
 
       <div style={styles.card}>
         {months.map((month, index) => (
-          <div key={month} style={styles.row}>
+          <div
+            key={month}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(index)}
+            style={{
+              ...styles.row,
+              opacity: draggedIndex === index ? 0.5 : 1
+            }}
+          >
+            <span style={styles.dragHandle}>☰</span>
             <span style={styles.month}>{month}</span>
-            <div>
-              <button onClick={() => moveUp(index)} style={styles.smallButton}>↑</button>
-              <button onClick={() => moveDown(index)} style={styles.smallButton}>↓</button>
-            </div>
           </div>
         ))}
       </div>
 
-      <button onClick={checkAnswer} style={styles.checkButton}>{t.check}</button>
+      <button onClick={checkAnswer} style={styles.checkButton}>
+        {t.check}
+      </button>
+
       <p style={styles.message}>{message}</p>
 
-      <a href="/" style={styles.backLink}>{t.backHome}</a>
+      <a href="/" style={styles.backLink}>
+        {t.backHome}
+      </a>
     </main>
   );
 }
@@ -87,24 +115,24 @@ const styles = {
   },
   row: {
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
+    gap: "16px",
     padding: "14px",
     marginBottom: "10px",
     background: "#dbeafe",
-    borderRadius: "16px"
+    borderRadius: "16px",
+    cursor: "grab",
+    userSelect: "none",
+    boxShadow: "0 4px 10px rgba(37,99,235,0.12)"
+  },
+  dragHandle: {
+    fontSize: "24px",
+    color: "#2563eb",
+    fontWeight: "bold"
   },
   month: {
     fontSize: "22px",
     fontWeight: "bold"
-  },
-  smallButton: {
-    margin: "0 4px",
-    padding: "9px 13px",
-    fontSize: "18px",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer"
   },
   checkButton: {
     marginTop: "20px",
