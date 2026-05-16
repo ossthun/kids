@@ -40,6 +40,7 @@ export default function AdditionPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/addition");
         router.push("/reward");
       }, 700);
     } else {
