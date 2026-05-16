@@ -102,6 +102,7 @@ export default function WeekdaysPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/weekdays");
         router.push("/reward");
       }, 700);
     } else {
