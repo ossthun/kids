@@ -98,6 +98,7 @@ export default function TimePage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/time");
         router.push("/reward");
       }, 700);
     } else {
