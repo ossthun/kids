@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomNumber(max) {
@@ -9,23 +10,31 @@ function shuffle(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
-export default function CalendarGamePage() {
+export default function CalendarPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setLanguage(getLanguage());
+    const detectedLanguage = getLanguage();
+    const safeLanguage = translations[detectedLanguage]
+      ? detectedLanguage
+      : "en";
+
+    setLanguage(safeLanguage);
+    setQuestion(createQuestion(safeLanguage));
   }, []);
 
-  const t = translations[language];
-
-  const createQuestion = () => {
+  const createQuestion = (lang) => {
+    const t = translations[lang] || translations.en;
     const type = Math.random() < 0.5 ? "day" : "month";
 
     if (type === "day") {
       const index = randomNumber(7);
       const direction = Math.random() < 0.5 ? "after" : "before";
+
       const correctIndex =
         direction === "after"
           ? (index + 1) % 7
@@ -50,6 +59,7 @@ export default function CalendarGamePage() {
 
     const index = randomNumber(12);
     const direction = Math.random() < 0.5 ? "after" : "before";
+
     const correctIndex =
       direction === "after"
         ? (index + 1) % 12
@@ -72,29 +82,32 @@ export default function CalendarGamePage() {
     };
   };
 
-  useEffect(() => {
-    setQuestion(createQuestion());
-  }, [language]);
+  if (!question) return null;
+
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
-    setQuestion(createQuestion());
+    setQuestion(createQuestion(language));
     setMessage("");
   };
 
   const checkAnswer = (answer) => {
     if (answer === question.correctAnswer) {
       setMessage(t.correct);
-      setTimeout(nextQuestion, 700);
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
     }
   };
 
-  if (!question) return null;
-
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>📆 {t.calendarGameTitle}</h1>
+      <h1 style={styles.title}>
+        📆 {t.calendarGameTitle}
+      </h1>
 
       <p style={styles.subtitle}>
         {t.calendarGameSubtitle}
@@ -117,7 +130,9 @@ export default function CalendarGamePage() {
           ))}
         </div>
 
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
 
         <button onClick={nextQuestion} style={styles.skipButton}>
           {t.skip}
@@ -139,13 +154,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
     maxWidth: "640px",
     margin: "30px auto",
@@ -154,17 +172,20 @@ const styles = {
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   question: {
     fontSize: "32px",
     fontWeight: "bold",
     margin: "20px 0 30px"
   },
+
   answers: {
     display: "grid",
     gap: "14px",
     maxWidth: "420px",
     margin: "0 auto"
   },
+
   answerButton: {
     padding: "18px",
     background: "#60a5fa",
@@ -175,11 +196,13 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   skipButton: {
     marginTop: "10px",
     padding: "14px 28px",
@@ -190,6 +213,7 @@ const styles = {
     fontSize: "20px",
     cursor: "pointer"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
