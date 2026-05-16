@@ -55,6 +55,7 @@ export default function NumberPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/number");
         router.push("/reward");
       }, 700);
     } else {
