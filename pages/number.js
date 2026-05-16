@@ -1,41 +1,30 @@
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
-function randomNumber(max) {
-  return Math.floor(Math.random() * max) + 1;
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function createQuestion() {
-  const type = Math.random();
+  const missing = randomNumber(2, 9);
+  const numbers = [];
 
-  if (type < 0.4) {
-    const a = randomNumber(20);
-    const missing = randomNumber(20);
-    return {
-      text: `${a} + ? = ${a + missing}`,
-      answer: missing
-    };
+  for (let i = 1; i <= 10; i++) {
+    if (i !== missing) {
+      numbers.push(i);
+    }
   }
-
-  if (type < 0.8) {
-    const result = randomNumber(30);
-    const missing = randomNumber(result);
-    return {
-      text: `${result} − ? = ${result - missing}`,
-      answer: missing
-    };
-  }
-
-  const a = randomNumber(10);
-  const missing = randomNumber(10);
 
   return {
-    text: `${a} × ? = ${a * missing}`,
+    numbers,
     answer: missing
   };
 }
 
 export default function NumberPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(createQuestion());
   const [answer, setAnswer] = useState("");
@@ -52,18 +41,22 @@ export default function NumberPage() {
     inputRef.current?.focus();
   }, [question]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setQuestion(createQuestion());
     setAnswer("");
+    setMessage("");
   };
 
   const checkAnswer = () => {
     if (Number(answer) === question.answer) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
       inputRef.current?.focus();
@@ -72,18 +65,24 @@ export default function NumberPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>🔢 Missing Number</h1>
+      <h1 style={styles.title}>{t.numberTitle}</h1>
 
-      <p style={styles.subtitle}>
-  {t.numberSubtitle}
-</p>
+      <p style={styles.subtitle}>{t.numberSubtitle}</p>
 
       <div style={styles.card}>
-        <p style={styles.score}>{t.score}: {score}</p>
-
-        <p style={styles.question}>
-          {question.text}
+        <p style={styles.score}>
+          {t.score}: {score}
         </p>
+
+        <div style={styles.numberRow}>
+          {question.numbers.map((num, index) => (
+            <span key={index} style={styles.number}>
+              {num}
+            </span>
+          ))}
+
+          <span style={styles.questionMark}>?</span>
+        </div>
 
         <input
           ref={inputRef}
@@ -99,15 +98,23 @@ export default function NumberPage() {
 
         <br />
 
-        <button onClick={checkAnswer} style={styles.checkButton}>
+        <button
+          onClick={checkAnswer}
+          style={styles.checkButton}
+        >
           {t.check}
         </button>
 
-        <button onClick={nextQuestion} style={styles.skipButton}>
+        <button
+          onClick={nextQuestion}
+          style={styles.skipButton}
+        >
           {t.skip}
         </button>
 
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
       </div>
 
       <a href="/" style={styles.backLink}>
@@ -125,31 +132,65 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
-    maxWidth: "520px",
+    maxWidth: "640px",
     margin: "30px auto",
     background: "white",
     borderRadius: "24px",
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   score: {
     fontSize: "22px",
     fontWeight: "bold",
     color: "#16a34a"
   },
-  question: {
-    fontSize: "56px",
-    fontWeight: "bold",
-    margin: "20px 0"
+
+  numberRow: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: "12px",
+    margin: "30px 0"
   },
+
+  number: {
+    width: "60px",
+    height: "60px",
+    background: "#dbeafe",
+    borderRadius: "16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "30px",
+    fontWeight: "bold",
+    color: "#1e3a8a"
+  },
+
+  questionMark: {
+    width: "60px",
+    height: "60px",
+    background: "#fef3c7",
+    borderRadius: "16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "34px",
+    fontWeight: "bold",
+    color: "#d97706"
+  },
+
   input: {
     width: "180px",
     padding: "14px",
@@ -158,6 +199,7 @@ const styles = {
     borderRadius: "14px",
     border: "2px solid #93c5fd"
   },
+
   checkButton: {
     marginTop: "24px",
     marginRight: "10px",
@@ -169,6 +211,7 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   skipButton: {
     marginTop: "24px",
     padding: "16px 30px",
@@ -179,11 +222,13 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
