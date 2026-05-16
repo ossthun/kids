@@ -103,6 +103,7 @@ export default function MonthsPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/months");
         router.push("/reward");
       }, 700);
     } else {
