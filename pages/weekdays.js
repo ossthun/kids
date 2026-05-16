@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLanguage, translations } from "../translations";
 
 function shuffle(array) {
@@ -9,7 +9,9 @@ export default function WeekdaysPage() {
   const [language, setLanguage] = useState("en");
   const [days, setDays] = useState([]);
   const [message, setMessage] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [dragging, setDragging] = useState(null);
+
+  const cardRef = useRef(null);
 
   useEffect(() => {
     const detectedLanguage = getLanguage();
@@ -22,27 +24,67 @@ export default function WeekdaysPage() {
 
   const t = translations[language] || translations.en;
 
-  const handleDayClick = (index) => {
-    if (selectedIndex === null) {
-      setSelectedIndex(index);
-      setMessage("");
-      return;
-    }
+  const startDrag = (event, index) => {
+    event.preventDefault();
 
-    if (selectedIndex === index) {
-      setSelectedIndex(null);
-      return;
-    }
+    const item = event.currentTarget;
+    const rect = item.getBoundingClientRect();
 
-    const updated = [...days];
-    const selectedDay = updated[selectedIndex];
+    setDragging({
+      index,
+      day: days[index],
+      offsetY: event.clientY - rect.top,
+      y: event.clientY,
+    });
 
-    updated.splice(selectedIndex, 1);
-    updated.splice(index, 0, selectedDay);
-
-    setDays(updated);
-    setSelectedIndex(null);
+    item.setPointerCapture?.(event.pointerId);
     setMessage("");
+  };
+
+  const moveDrag = (event) => {
+    if (!dragging || !cardRef.current) return;
+
+    event.preventDefault();
+
+    const rows = Array.from(
+      cardRef.current.querySelectorAll("[data-day-row='true']")
+    );
+
+    let newIndex = dragging.index;
+
+    rows.forEach((row, index) => {
+      const rect = row.getBoundingClientRect();
+      const middle = rect.top + rect.height / 2;
+
+      if (event.clientY > middle) {
+        newIndex = index;
+      }
+    });
+
+    setDragging((current) => ({
+      ...current,
+      y: event.clientY,
+      targetIndex: newIndex,
+    }));
+  };
+
+  const endDrag = () => {
+    if (!dragging) return;
+
+    const fromIndex = dragging.index;
+    const toIndex =
+      typeof dragging.targetIndex === "number"
+        ? dragging.targetIndex
+        : dragging.index;
+
+    if (fromIndex !== toIndex) {
+      const updated = [...days];
+      const [movedDay] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, movedDay);
+      setDays(updated);
+    }
+
+    setDragging(null);
   };
 
   const checkAnswer = () => {
@@ -56,27 +98,40 @@ export default function WeekdaysPage() {
 
       <p style={styles.subtitle}>{t.weekdaysSubtitle}</p>
 
-      <div style={styles.card}>
+      <div ref={cardRef} style={styles.card}>
         {days.map((day, index) => {
-          const isSelected = selectedIndex === index;
+          const isDragging = dragging?.index === index;
 
           return (
-            <button
+            <div
               key={day}
-              onClick={() => handleDayClick(index)}
+              data-day-row="true"
+              onPointerDown={(event) => startDrag(event, index)}
+              onPointerMove={moveDrag}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
               style={{
                 ...styles.dayRow,
-                ...(isSelected ? styles.selectedDayRow : {})
+                opacity: isDragging ? 0.35 : 1,
               }}
             >
-              <span style={styles.tapIcon}>
-                {isSelected ? "👉" : "☰"}
-              </span>
-
+              <span style={styles.dragHandle}>☰</span>
               <span style={styles.day}>{day}</span>
-            </button>
+            </div>
           );
         })}
+
+        {dragging && (
+          <div
+            style={{
+              ...styles.dragPreview,
+              top: dragging.y - dragging.offsetY,
+            }}
+          >
+            <span style={styles.dragHandle}>☰</span>
+            <span style={styles.day}>{dragging.day}</span>
+          </div>
+        )}
       </div>
 
       <button onClick={checkAnswer} style={styles.checkButton}>
@@ -98,14 +153,14 @@ const styles = {
     background: "#f0f9ff",
     padding: "30px",
     textAlign: "center",
-    fontFamily: "Arial, sans-serif"
+    fontFamily: "Arial, sans-serif",
   },
   title: {
     fontSize: "42px",
-    color: "#2563eb"
+    color: "#2563eb",
   },
   subtitle: {
-    fontSize: "22px"
+    fontSize: "22px",
   },
   card: {
     maxWidth: "500px",
@@ -113,37 +168,47 @@ const styles = {
     background: "white",
     borderRadius: "24px",
     padding: "20px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+    position: "relative",
+    touchAction: "none",
   },
   dayRow: {
-    width: "100%",
     display: "flex",
     alignItems: "center",
     gap: "16px",
     padding: "18px",
     marginBottom: "12px",
     background: "#dbeafe",
-    border: "2px solid transparent",
     borderRadius: "18px",
-    cursor: "pointer",
+    cursor: "grab",
     userSelect: "none",
+    touchAction: "none",
     boxShadow: "0 4px 10px rgba(37,99,235,0.12)",
-    textAlign: "left"
   },
-  selectedDayRow: {
+  dragPreview: {
+    position: "fixed",
+    left: "50%",
+    transform: "translateX(-50%) scale(1.03)",
+    zIndex: 9999,
+    width: "min(460px, calc(100vw - 70px))",
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+    padding: "18px",
     background: "#bfdbfe",
     border: "2px solid #2563eb",
-    transform: "scale(1.02)"
+    borderRadius: "18px",
+    boxShadow: "0 12px 30px rgba(37,99,235,0.25)",
+    pointerEvents: "none",
   },
-  tapIcon: {
+  dragHandle: {
     fontSize: "24px",
     color: "#2563eb",
     fontWeight: "bold",
-    width: "32px"
   },
   day: {
     fontSize: "24px",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   checkButton: {
     marginTop: "20px",
@@ -153,18 +218,18 @@ const styles = {
     border: "none",
     borderRadius: "16px",
     fontSize: "22px",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   message: {
     fontSize: "24px",
     fontWeight: "bold",
-    marginTop: "20px"
+    marginTop: "20px",
   },
   backLink: {
     display: "inline-block",
     marginTop: "20px",
     color: "#2563eb",
     fontSize: "18px",
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 };
