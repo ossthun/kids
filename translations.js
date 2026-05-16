@@ -76,6 +76,9 @@ export const translations = {
 
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    rewardTitle: "Well done!",
+rewardSubtitle: "Tap anywhere to continue",
   },
 
   de: {
@@ -155,6 +158,9 @@ export const translations = {
 
     days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
     monthNames: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+
+  rewardTitle: "Gut gemacht!",
+rewardSubtitle: "Tippe irgendwo, um weiterzumachen",
   },
 
   fr: {
@@ -234,6 +240,9 @@ export const translations = {
 
     days: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
     monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+
+    rewardTitle: "Bravo !",
+rewardSubtitle: "Appuie n’importe où pour continuer",
   },
 
   it: {
@@ -313,6 +322,9 @@ export const translations = {
 
     days: ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"],
     monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]
+
+    rewardTitle: "Ben fatto!",
+rewardSubtitle: "Tocca ovunque per continuare",
   },
 
   es: {
@@ -392,6 +404,9 @@ export const translations = {
 
     days: ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
     monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+    rewardTitle: "¡Muy bien!",
+rewardSubtitle: "Toca cualquier lugar para continuar",
   },
 
   pt: {
@@ -471,6 +486,9 @@ export const translations = {
 
     days: ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"],
     monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+
+    rewardTitle: "Muito bem!",
+rewardSubtitle: "Toca em qualquer lugar para continuar",
   }
 };
 
