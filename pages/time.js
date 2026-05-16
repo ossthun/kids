@@ -88,10 +88,10 @@ export default function TimePage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>⏱️ Elapsed Time</h1>
+      <h1 style={styles.title}>{t.timeTitle}</h1>
 
       <p style={styles.subtitle}>
-        What time is it {question.add} minutes later?
+        {t.timeSubtitleStart} {question.add} {t.timeSubtitleEnd}
       </p>
 
       <div style={styles.card}>
