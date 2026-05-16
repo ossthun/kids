@@ -98,6 +98,7 @@ export default function DatesPage() {
       setMessage(t.correct);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/dates");
         router.push("/reward");
       }, 700);
     } else {
