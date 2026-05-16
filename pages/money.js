@@ -7,20 +7,14 @@ function randomCoin() {
   return coins[Math.floor(Math.random() * coins.length)];
 }
 
-function formatCHF(cents) {
-  return `CHF ${(cents / 100).toFixed(2)}`;
-}
-
 function createQuestion() {
   const coin1 = randomCoin();
   const coin2 = randomCoin();
   const coin3 = randomCoin();
 
-  const total = coin1 + coin2 + coin3;
-
   return {
     coins: [coin1, coin2, coin3],
-    answer: total
+    answer: coin1 + coin2 + coin3
   };
 }
 
@@ -45,6 +39,7 @@ export default function MoneyPage() {
   const nextQuestion = () => {
     setQuestion(createQuestion());
     setAnswer("");
+    setMessage("");
   };
 
   const checkAnswer = () => {
@@ -53,7 +48,10 @@ export default function MoneyPage() {
     if (userCents === question.answer) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        nextQuestion();
+      }, 700);
     } else {
       setMessage(t.tryAgain);
     }
@@ -61,14 +59,18 @@ export default function MoneyPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>💰 Money</h1>
+      <h1 style={styles.title}>
+        💰 {t.moneyTitle}
+      </h1>
 
       <p style={styles.subtitle}>
-        Add the Swiss coins.
+        {t.moneySubtitle}
       </p>
 
       <div style={styles.card}>
-        <p style={styles.score}>{t.score}: {score}</p>
+        <p style={styles.score}>
+          {t.score}: {score}
+        </p>
 
         <div style={styles.coins}>
           {question.coins.map((coin, index) => (
@@ -95,20 +97,22 @@ export default function MoneyPage() {
         />
 
         <p style={styles.hint}>
-          Example: {formatCHF(250)} → type 2.50
+          {t.moneyHint}
         </p>
 
-        <br />
+        <div style={styles.buttonRow}>
+          <button onClick={checkAnswer} style={styles.checkButton}>
+            {t.check}
+          </button>
 
-        <button onClick={checkAnswer} style={styles.checkButton}>
-          {t.check}
-        </button>
+          <button onClick={nextQuestion} style={styles.skipButton}>
+            {t.skip}
+          </button>
+        </div>
 
-        <button onClick={nextQuestion} style={styles.skipButton}>
-          {t.skip}
-        </button>
-
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
       </div>
 
       <a href="/" style={styles.backLink}>
@@ -126,13 +130,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
     maxWidth: "560px",
     margin: "30px auto",
@@ -141,11 +148,13 @@ const styles = {
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   score: {
     fontSize: "22px",
     fontWeight: "bold",
     color: "#16a34a"
   },
+
   coins: {
     display: "flex",
     justifyContent: "center",
@@ -153,6 +162,7 @@ const styles = {
     flexWrap: "wrap",
     margin: "30px 0"
   },
+
   coin: {
     width: "100px",
     height: "100px",
@@ -165,11 +175,13 @@ const styles = {
     fontSize: "22px",
     fontWeight: "bold"
   },
+
   question: {
     fontSize: "48px",
     fontWeight: "bold",
     margin: "20px 0"
   },
+
   input: {
     width: "180px",
     padding: "14px",
@@ -178,14 +190,21 @@ const styles = {
     borderRadius: "14px",
     border: "2px solid #93c5fd"
   },
+
   hint: {
     fontSize: "16px",
     color: "#64748b",
     marginTop: "12px"
   },
+
+  buttonRow: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    marginTop: "20px"
+  },
+
   checkButton: {
-    marginTop: "16px",
-    marginRight: "10px",
     padding: "16px 30px",
     background: "#22c55e",
     color: "white",
@@ -194,8 +213,8 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   skipButton: {
-    marginTop: "16px",
     padding: "16px 30px",
     background: "#f59e0b",
     color: "white",
@@ -204,11 +223,13 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
