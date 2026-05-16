@@ -47,8 +47,8 @@ export default function AdditionPage() {
       <h1 style={styles.title}>➕ Addition</h1>
 
       <p style={styles.subtitle}>
-        Add the two numbers.
-      </p>
+  {t.additionSubtitle}
+</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
