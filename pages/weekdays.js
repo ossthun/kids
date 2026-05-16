@@ -9,7 +9,7 @@ export default function WeekdaysPage() {
   const [language, setLanguage] = useState("en");
   const [days, setDays] = useState([]);
   const [message, setMessage] = useState("");
-  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   useEffect(() => {
     const detectedLanguage = getLanguage();
@@ -22,25 +22,26 @@ export default function WeekdaysPage() {
 
   const t = translations[language] || translations.en;
 
-  const handleDragStart = (index) => {
-    setDraggedIndex(index);
-  };
+  const handleDayClick = (index) => {
+    if (selectedIndex === null) {
+      setSelectedIndex(index);
+      setMessage("");
+      return;
+    }
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
-
-  const handleDrop = (dropIndex) => {
-    if (draggedIndex === null || draggedIndex === dropIndex) return;
+    if (selectedIndex === index) {
+      setSelectedIndex(null);
+      return;
+    }
 
     const updated = [...days];
-    const draggedItem = updated[draggedIndex];
+    const selectedDay = updated[selectedIndex];
 
-    updated.splice(draggedIndex, 1);
-    updated.splice(dropIndex, 0, draggedItem);
+    updated.splice(selectedIndex, 1);
+    updated.splice(index, 0, selectedDay);
 
     setDays(updated);
-    setDraggedIndex(null);
+    setSelectedIndex(null);
     setMessage("");
   };
 
@@ -53,27 +54,29 @@ export default function WeekdaysPage() {
     <main style={styles.page}>
       <h1 style={styles.title}>{t.weekdaysTitle}</h1>
 
-      <p style={styles.subtitle}>
-        {t.weekdaysSubtitle}
-      </p>
+      <p style={styles.subtitle}>{t.weekdaysSubtitle}</p>
 
       <div style={styles.card}>
-        {days.map((day, index) => (
-          <div
-            key={day}
-            draggable
-            onDragStart={() => handleDragStart(index)}
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(index)}
-            style={{
-              ...styles.dayRow,
-              opacity: draggedIndex === index ? 0.5 : 1
-            }}
-          >
-            <span style={styles.dragHandle}>☰</span>
-            <span style={styles.day}>{day}</span>
-          </div>
-        ))}
+        {days.map((day, index) => {
+          const isSelected = selectedIndex === index;
+
+          return (
+            <button
+              key={day}
+              onClick={() => handleDayClick(index)}
+              style={{
+                ...styles.dayRow,
+                ...(isSelected ? styles.selectedDayRow : {})
+              }}
+            >
+              <span style={styles.tapIcon}>
+                {isSelected ? "👉" : "☰"}
+              </span>
+
+              <span style={styles.day}>{day}</span>
+            </button>
+          );
+        })}
       </div>
 
       <button onClick={checkAnswer} style={styles.checkButton}>
@@ -113,21 +116,30 @@ const styles = {
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
   dayRow: {
+    width: "100%",
     display: "flex",
     alignItems: "center",
     gap: "16px",
     padding: "18px",
     marginBottom: "12px",
     background: "#dbeafe",
+    border: "2px solid transparent",
     borderRadius: "18px",
-    cursor: "grab",
+    cursor: "pointer",
     userSelect: "none",
-    boxShadow: "0 4px 10px rgba(37,99,235,0.12)"
+    boxShadow: "0 4px 10px rgba(37,99,235,0.12)",
+    textAlign: "left"
   },
-  dragHandle: {
+  selectedDayRow: {
+    background: "#bfdbfe",
+    border: "2px solid #2563eb",
+    transform: "scale(1.02)"
+  },
+  tapIcon: {
     fontSize: "24px",
     color: "#2563eb",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    width: "32px"
   },
   day: {
     fontSize: "24px",
