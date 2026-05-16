@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomNumber(min, max) {
@@ -23,6 +24,8 @@ function createQuestion() {
 }
 
 export default function SequencePage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(createQuestion());
   const [answer, setAnswer] = useState("");
@@ -39,18 +42,22 @@ export default function SequencePage() {
     inputRef.current?.focus();
   }, [question]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setQuestion(createQuestion());
     setAnswer("");
+    setMessage("");
   };
 
   const checkAnswer = () => {
     if (Number(answer) === question.answer) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
       inputRef.current?.focus();
@@ -59,11 +66,9 @@ export default function SequencePage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>🔢 Sequence</h1>
+      <h1 style={styles.title}>{t.sequenceTitle}</h1>
 
-      <p style={styles.subtitle}>
-  {t.sequenceSubtitle}
-</p>
+      <p style={styles.subtitle}>{t.sequenceSubtitle}</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
