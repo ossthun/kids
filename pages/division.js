@@ -51,6 +51,7 @@ export default function DivisionPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/division");
         router.push("/reward");
       }, 700);
     } else {
