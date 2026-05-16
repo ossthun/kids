@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function shuffle(array) {
@@ -6,6 +7,8 @@ function shuffle(array) {
 }
 
 export default function WeekdaysPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [days, setDays] = useState([]);
   const [message, setMessage] = useState("");
@@ -15,8 +18,12 @@ export default function WeekdaysPage() {
 
   useEffect(() => {
     const detectedLanguage = getLanguage();
-    const safeLanguage = translations[detectedLanguage] ? detectedLanguage : "en";
-    const safeDays = translations[safeLanguage].days || translations.en.days;
+    const safeLanguage = translations[detectedLanguage]
+      ? detectedLanguage
+      : "en";
+
+    const safeDays =
+      translations[safeLanguage].days || translations.en.days;
 
     setLanguage(safeLanguage);
     setDays(shuffle(safeDays));
@@ -88,15 +95,29 @@ export default function WeekdaysPage() {
   };
 
   const checkAnswer = () => {
-    const correct = JSON.stringify(days) === JSON.stringify(t.days);
-    setMessage(correct ? t.correct : t.tryAgain);
+    const correct =
+      JSON.stringify(days) === JSON.stringify(t.days);
+
+    if (correct) {
+      setMessage(t.correct);
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
+    } else {
+      setMessage(t.tryAgain);
+    }
   };
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>{t.weekdaysTitle}</h1>
+      <h1 style={styles.title}>
+        {t.weekdaysTitle}
+      </h1>
 
-      <p style={styles.subtitle}>{t.weekdaysSubtitle}</p>
+      <p style={styles.subtitle}>
+        {t.weekdaysSubtitle}
+      </p>
 
       <div ref={cardRef} style={styles.card}>
         {days.map((day, index) => {
@@ -106,7 +127,9 @@ export default function WeekdaysPage() {
             <div
               key={day}
               data-day-row="true"
-              onPointerDown={(event) => startDrag(event, index)}
+              onPointerDown={(event) =>
+                startDrag(event, index)
+              }
               onPointerMove={moveDrag}
               onPointerUp={endDrag}
               onPointerCancel={endDrag}
@@ -115,8 +138,13 @@ export default function WeekdaysPage() {
                 opacity: isDragging ? 0.35 : 1,
               }}
             >
-              <span style={styles.dragHandle}>☰</span>
-              <span style={styles.day}>{day}</span>
+              <span style={styles.dragHandle}>
+                ☰
+              </span>
+
+              <span style={styles.day}>
+                {day}
+              </span>
             </div>
           );
         })}
@@ -128,17 +156,27 @@ export default function WeekdaysPage() {
               top: dragging.y - dragging.offsetY,
             }}
           >
-            <span style={styles.dragHandle}>☰</span>
-            <span style={styles.day}>{dragging.day}</span>
+            <span style={styles.dragHandle}>
+              ☰
+            </span>
+
+            <span style={styles.day}>
+              {dragging.day}
+            </span>
           </div>
         )}
       </div>
 
-      <button onClick={checkAnswer} style={styles.checkButton}>
+      <button
+        onClick={checkAnswer}
+        style={styles.checkButton}
+      >
         {t.check}
       </button>
 
-      <p style={styles.message}>{message}</p>
+      <p style={styles.message}>
+        {message}
+      </p>
 
       <a href="/" style={styles.backLink}>
         {t.backHome}
@@ -155,13 +193,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif",
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb",
   },
+
   subtitle: {
     fontSize: "22px",
   },
+
   card: {
     maxWidth: "500px",
     margin: "30px auto",
@@ -172,6 +213,7 @@ const styles = {
     position: "relative",
     touchAction: "none",
   },
+
   dayRow: {
     display: "flex",
     alignItems: "center",
@@ -183,14 +225,18 @@ const styles = {
     cursor: "grab",
     userSelect: "none",
     touchAction: "none",
-    boxShadow: "0 4px 10px rgba(37,99,235,0.12)",
+    boxShadow:
+      "0 4px 10px rgba(37,99,235,0.12)",
   },
+
   dragPreview: {
     position: "fixed",
     left: "50%",
-    transform: "translateX(-50%) scale(1.03)",
+    transform:
+      "translateX(-50%) scale(1.03)",
     zIndex: 9999,
-    width: "min(460px, calc(100vw - 70px))",
+    width:
+      "min(460px, calc(100vw - 70px))",
     display: "flex",
     alignItems: "center",
     gap: "16px",
@@ -198,18 +244,22 @@ const styles = {
     background: "#bfdbfe",
     border: "2px solid #2563eb",
     borderRadius: "18px",
-    boxShadow: "0 12px 30px rgba(37,99,235,0.25)",
+    boxShadow:
+      "0 12px 30px rgba(37,99,235,0.25)",
     pointerEvents: "none",
   },
+
   dragHandle: {
     fontSize: "24px",
     color: "#2563eb",
     fontWeight: "bold",
   },
+
   day: {
     fontSize: "24px",
     fontWeight: "bold",
   },
+
   checkButton: {
     marginTop: "20px",
     padding: "16px 32px",
@@ -220,11 +270,13 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer",
   },
+
   message: {
     fontSize: "24px",
     fontWeight: "bold",
     marginTop: "20px",
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
