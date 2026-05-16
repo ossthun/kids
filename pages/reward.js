@@ -1,17 +1,28 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { getLanguage, translations } from "../translations";
 
 export default function RewardPage() {
   const router = useRouter();
   const [returnPage, setReturnPage] = useState("/");
+  const [language, setLanguage] = useState("en");
 
   useEffect(() => {
+    const detectedLanguage = getLanguage();
+    const safeLanguage = translations[detectedLanguage]
+      ? detectedLanguage
+      : "en";
+
+    setLanguage(safeLanguage);
+
     const savedPage = sessionStorage.getItem("lastGame");
 
     if (savedPage) {
       setReturnPage(savedPage);
     }
   }, []);
+
+  const t = translations[language] || translations.en;
 
   const handleTap = () => {
     router.push(returnPage);
@@ -37,11 +48,11 @@ export default function RewardPage() {
         <div style={styles.smiley}>😊</div>
 
         <h1 style={styles.title}>
-          Well done!
+          {t.rewardTitle}
         </h1>
 
         <p style={styles.subtitle}>
-          Tap anywhere to continue
+          {t.rewardSubtitle}
         </p>
       </div>
     </main>
