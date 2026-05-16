@@ -75,8 +75,8 @@ export default function NumberPage() {
       <h1 style={styles.title}>🔢 Missing Number</h1>
 
       <p style={styles.subtitle}>
-        Find the missing number.
-      </p>
+  {t.numberSubtitle}
+</p>
 
       <div style={styles.card}>
         <p style={styles.score}>{t.score}: {score}</p>
