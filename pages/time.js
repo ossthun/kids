@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomHour() {
@@ -20,7 +21,9 @@ function formatTime(hour, minute) {
 }
 
 function addMinutes(hour, minute, minutesToAdd) {
-  const totalMinutes = ((hour % 12) * 60 + minute + minutesToAdd) % 720;
+  const totalMinutes =
+    ((hour % 12) * 60 + minute + minutesToAdd) % 720;
+
   const newHour = Math.floor(totalMinutes / 60) || 12;
   const newMinute = totalMinutes % 60;
 
@@ -42,7 +45,11 @@ function createQuestion() {
 
   const wrong1 = addMinutes(hour, minute, add + 15);
   const wrong2 = addMinutes(hour, minute, Math.max(15, add - 15));
-  const wrong3 = addMinutes(hour === 12 ? 1 : hour + 1, minute, add);
+  const wrong3 = addMinutes(
+    hour === 12 ? 1 : hour + 1,
+    minute,
+    add
+  );
 
   return {
     hour,
@@ -59,17 +66,26 @@ function createQuestion() {
 }
 
 export default function TimePage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [question, setQuestion] = useState(createQuestion());
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    setLanguage(getLanguage());
+    const detectedLanguage = getLanguage();
+    const safeLanguage = translations[detectedLanguage]
+      ? detectedLanguage
+      : "en";
+
+    setLanguage(safeLanguage);
   }, []);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
-  const hourAngle = ((question.hour % 12) + question.minute / 60) * 30;
+  const hourAngle =
+    ((question.hour % 12) + question.minute / 60) * 30;
+
   const minuteAngle = question.minute * 6;
 
   const nextQuestion = () => {
@@ -80,7 +96,10 @@ export default function TimePage() {
   const checkAnswer = (answer) => {
     if (answer === question.correctAnswer) {
       setMessage(t.correct);
-      setTimeout(nextQuestion, 700);
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
     }
@@ -88,7 +107,9 @@ export default function TimePage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>{t.timeTitle}</h1>
+      <h1 style={styles.title}>
+        {t.timeTitle}
+      </h1>
 
       <p style={styles.subtitle}>
         {t.timeSubtitleStart} {question.add} {t.timeSubtitleEnd}
@@ -146,7 +167,9 @@ export default function TimePage() {
           ))}
         </div>
 
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
 
         <button onClick={nextQuestion} style={styles.skipButton}>
           {t.skip}
@@ -168,13 +191,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
     maxWidth: "560px",
     margin: "30px auto",
@@ -183,6 +209,7 @@ const styles = {
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   clock: {
     width: "240px",
     height: "240px",
@@ -192,6 +219,7 @@ const styles = {
     position: "relative",
     background: "#eff6ff"
   },
+
   number: {
     position: "absolute",
     left: "105px",
@@ -199,6 +227,7 @@ const styles = {
     fontSize: "20px",
     fontWeight: "bold"
   },
+
   hourHand: {
     position: "absolute",
     width: "8px",
@@ -209,6 +238,7 @@ const styles = {
     transformOrigin: "bottom center",
     borderRadius: "8px"
   },
+
   minuteHand: {
     position: "absolute",
     width: "5px",
@@ -219,6 +249,7 @@ const styles = {
     transformOrigin: "bottom center",
     borderRadius: "8px"
   },
+
   centerDot: {
     position: "absolute",
     width: "18px",
@@ -228,11 +259,13 @@ const styles = {
     left: "111px",
     top: "111px"
   },
+
   startTime: {
     fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "24px"
   },
+
   answers: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -240,6 +273,7 @@ const styles = {
     maxWidth: "360px",
     margin: "0 auto"
   },
+
   answerButton: {
     padding: "18px",
     background: "#60a5fa",
@@ -250,11 +284,13 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   skipButton: {
     marginTop: "10px",
     padding: "14px 28px",
@@ -265,6 +301,7 @@ const styles = {
     fontSize: "20px",
     cursor: "pointer"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
