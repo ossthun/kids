@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import { getLanguage, translations } from "../translations";
 
 function randomNumber() {
-  return Math.floor(Math.random() * 10) + 1;
+  return Math.floor(Math.random() * 12) + 1;
 }
 
 export default function MultiplicationPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [a, setA] = useState(randomNumber());
   const [b, setB] = useState(randomNumber());
@@ -23,19 +26,23 @@ export default function MultiplicationPage() {
     inputRef.current?.focus();
   }, [a, b]);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const nextQuestion = () => {
     setA(randomNumber());
     setB(randomNumber());
     setAnswer("");
+    setMessage("");
   };
 
   const checkAnswer = () => {
     if (Number(answer) === a * b) {
       setMessage(t.correct);
       setScore((prev) => prev + 1);
-      nextQuestion();
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
     } else {
       setMessage(t.tryAgain);
       inputRef.current?.focus();
@@ -44,14 +51,18 @@ export default function MultiplicationPage() {
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>{t.multiplicationTitle}</h1>
+      <h1 style={styles.title}>
+        {t.multiplicationTitle}
+      </h1>
 
       <p style={styles.subtitle}>
         {t.multiplicationSubtitle}
       </p>
 
       <div style={styles.card}>
-        <p style={styles.score}>{t.score}: {score}</p>
+        <p style={styles.score}>
+          {t.score}: {score}
+        </p>
 
         <p style={styles.question}>
           {a} × {b} = ?
@@ -71,15 +82,23 @@ export default function MultiplicationPage() {
 
         <br />
 
-        <button onClick={checkAnswer} style={styles.checkButton}>
+        <button
+          onClick={checkAnswer}
+          style={styles.checkButton}
+        >
           {t.check}
         </button>
 
-        <button onClick={nextQuestion} style={styles.skipButton}>
+        <button
+          onClick={nextQuestion}
+          style={styles.skipButton}
+        >
           {t.skip}
         </button>
 
-        <p style={styles.message}>{message}</p>
+        <p style={styles.message}>
+          {message}
+        </p>
       </div>
 
       <a href="/" style={styles.backLink}>
@@ -97,13 +116,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif"
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb"
   },
+
   subtitle: {
     fontSize: "22px"
   },
+
   card: {
     maxWidth: "520px",
     margin: "30px auto",
@@ -112,16 +134,19 @@ const styles = {
     padding: "30px",
     boxShadow: "0 10px 25px rgba(0,0,0,0.08)"
   },
+
   score: {
     fontSize: "22px",
     fontWeight: "bold",
     color: "#16a34a"
   },
+
   question: {
     fontSize: "56px",
     fontWeight: "bold",
     margin: "20px 0"
   },
+
   input: {
     width: "180px",
     padding: "14px",
@@ -130,6 +155,7 @@ const styles = {
     borderRadius: "14px",
     border: "2px solid #93c5fd"
   },
+
   checkButton: {
     marginTop: "24px",
     marginRight: "10px",
@@ -141,6 +167,7 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   skipButton: {
     marginTop: "24px",
     padding: "16px 30px",
@@ -151,11 +178,13 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer"
   },
+
   message: {
     fontSize: "26px",
     fontWeight: "bold",
     marginTop: "24px"
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
