@@ -48,6 +48,7 @@ export default function SubtractionPage() {
       setScore((prev) => prev + 1);
 
       setTimeout(() => {
+        sessionStorage.setItem("lastGame", "/subtraction");
         router.push("/reward");
       }, 700);
     } else {
