@@ -12,12 +12,15 @@ export default function WeekdaysPage() {
   const [draggedIndex, setDraggedIndex] = useState(null);
 
   useEffect(() => {
-    const lang = getLanguage();
-    setLanguage(lang);
-    setDays(shuffle(translations[lang].days));
+    const detectedLanguage = getLanguage();
+    const safeLanguage = translations[detectedLanguage] ? detectedLanguage : "en";
+    const safeDays = translations[safeLanguage].days || translations.en.days;
+
+    setLanguage(safeLanguage);
+    setDays(shuffle(safeDays));
   }, []);
 
-  const t = translations[language];
+  const t = translations[language] || translations.en;
 
   const handleDragStart = (index) => {
     setDraggedIndex(index);
@@ -64,8 +67,7 @@ export default function WeekdaysPage() {
             onDrop={() => handleDrop(index)}
             style={{
               ...styles.dayRow,
-              opacity: draggedIndex === index ? 0.5 : 1,
-              transform: draggedIndex === index ? "scale(1.03)" : "scale(1)",
+              opacity: draggedIndex === index ? 0.5 : 1
             }}
           >
             <span style={styles.dragHandle}>☰</span>
@@ -120,7 +122,6 @@ const styles = {
     borderRadius: "18px",
     cursor: "grab",
     userSelect: "none",
-    transition: "all 0.15s ease",
     boxShadow: "0 4px 10px rgba(37,99,235,0.12)"
   },
   dragHandle: {
