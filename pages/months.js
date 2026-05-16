@@ -7,6 +7,8 @@ function shuffle(array) {
 }
 
 export default function MonthsPage() {
+  const router = useRouter();
+
   const [language, setLanguage] = useState("en");
   const [months, setMonths] = useState([]);
   const [message, setMessage] = useState("");
@@ -16,9 +18,13 @@ export default function MonthsPage() {
 
   useEffect(() => {
     const detectedLanguage = getLanguage();
-    const safeLanguage = translations[detectedLanguage] ? detectedLanguage : "en";
+    const safeLanguage = translations[detectedLanguage]
+      ? detectedLanguage
+      : "en";
+
     const safeMonths =
-      translations[safeLanguage].monthNames || translations.en.monthNames;
+      translations[safeLanguage].monthNames ||
+      translations.en.monthNames;
 
     setLanguage(safeLanguage);
     setMonths(shuffle(safeMonths));
@@ -90,22 +96,29 @@ export default function MonthsPage() {
   };
 
   const checkAnswer = () => {
-    const correct = JSON.stringify(months) === JSON.stringify(t.monthNames);
-   if (correct) {
-  setMessage(t.correct);
-  setTimeout(() => {
-    router.push("/reward");
-  }, 700);
-} else {
-  setMessage(t.tryAgain);
-}
+    const correct =
+      JSON.stringify(months) === JSON.stringify(t.monthNames);
+
+    if (correct) {
+      setMessage(t.correct);
+
+      setTimeout(() => {
+        router.push("/reward");
+      }, 700);
+    } else {
+      setMessage(t.tryAgain);
+    }
   };
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>{t.monthsTitle}</h1>
+      <h1 style={styles.title}>
+        {t.monthsTitle}
+      </h1>
 
-      <p style={styles.subtitle}>{t.monthsSubtitle}</p>
+      <p style={styles.subtitle}>
+        {t.monthsSubtitle}
+      </p>
 
       <div ref={cardRef} style={styles.card}>
         {months.map((month, index) => {
@@ -115,7 +128,9 @@ export default function MonthsPage() {
             <div
               key={month}
               data-month-row="true"
-              onPointerDown={(event) => startDrag(event, index)}
+              onPointerDown={(event) =>
+                startDrag(event, index)
+              }
               onPointerMove={moveDrag}
               onPointerUp={endDrag}
               onPointerCancel={endDrag}
@@ -124,8 +139,13 @@ export default function MonthsPage() {
                 opacity: isDragging ? 0.35 : 1,
               }}
             >
-              <span style={styles.dragHandle}>☰</span>
-              <span style={styles.month}>{month}</span>
+              <span style={styles.dragHandle}>
+                ☰
+              </span>
+
+              <span style={styles.month}>
+                {month}
+              </span>
             </div>
           );
         })}
@@ -137,17 +157,27 @@ export default function MonthsPage() {
               top: dragging.y - dragging.offsetY,
             }}
           >
-            <span style={styles.dragHandle}>☰</span>
-            <span style={styles.month}>{dragging.month}</span>
+            <span style={styles.dragHandle}>
+              ☰
+            </span>
+
+            <span style={styles.month}>
+              {dragging.month}
+            </span>
           </div>
         )}
       </div>
 
-      <button onClick={checkAnswer} style={styles.checkButton}>
+      <button
+        onClick={checkAnswer}
+        style={styles.checkButton}
+      >
         {t.check}
       </button>
 
-      <p style={styles.message}>{message}</p>
+      <p style={styles.message}>
+        {message}
+      </p>
 
       <a href="/" style={styles.backLink}>
         {t.backHome}
@@ -164,13 +194,16 @@ const styles = {
     textAlign: "center",
     fontFamily: "Arial, sans-serif",
   },
+
   title: {
     fontSize: "42px",
     color: "#2563eb",
   },
+
   subtitle: {
     fontSize: "22px",
   },
+
   card: {
     maxWidth: "520px",
     margin: "30px auto",
@@ -181,6 +214,7 @@ const styles = {
     position: "relative",
     touchAction: "none",
   },
+
   monthRow: {
     display: "flex",
     alignItems: "center",
@@ -192,14 +226,18 @@ const styles = {
     cursor: "grab",
     userSelect: "none",
     touchAction: "none",
-    boxShadow: "0 4px 10px rgba(37,99,235,0.12)",
+    boxShadow:
+      "0 4px 10px rgba(37,99,235,0.12)",
   },
+
   dragPreview: {
     position: "fixed",
     left: "50%",
-    transform: "translateX(-50%) scale(1.03)",
+    transform:
+      "translateX(-50%) scale(1.03)",
     zIndex: 9999,
-    width: "min(480px, calc(100vw - 70px))",
+    width:
+      "min(480px, calc(100vw - 70px))",
     display: "flex",
     alignItems: "center",
     gap: "16px",
@@ -207,18 +245,22 @@ const styles = {
     background: "#bfdbfe",
     border: "2px solid #2563eb",
     borderRadius: "16px",
-    boxShadow: "0 12px 30px rgba(37,99,235,0.25)",
+    boxShadow:
+      "0 12px 30px rgba(37,99,235,0.25)",
     pointerEvents: "none",
   },
+
   dragHandle: {
     fontSize: "24px",
     color: "#2563eb",
     fontWeight: "bold",
   },
+
   month: {
     fontSize: "22px",
     fontWeight: "bold",
   },
+
   checkButton: {
     marginTop: "20px",
     padding: "16px 32px",
@@ -229,11 +271,13 @@ const styles = {
     fontSize: "22px",
     cursor: "pointer",
   },
+
   message: {
     fontSize: "24px",
     fontWeight: "bold",
     marginTop: "20px",
   },
+
   backLink: {
     display: "inline-block",
     marginTop: "20px",
